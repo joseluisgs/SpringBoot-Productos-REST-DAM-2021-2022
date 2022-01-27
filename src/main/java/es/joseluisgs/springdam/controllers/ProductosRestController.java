@@ -52,6 +52,7 @@ public class ProductosRestController {
     public ResponseEntity<Producto> save(@RequestBody Producto producto) {
         try {
             producto.setCreatedAt(LocalDateTime.now());
+            producto.setId(null); // Por si me llega un id
             Producto productoInsertado = productosRepository.save(producto);
             return ResponseEntity.ok(productoInsertado);
         } catch (Exception e) {
