@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -27,12 +28,20 @@ public class ProductosRestController {
 
     // Obtener todos los productos
     @GetMapping("/productos")
-    public ResponseEntity<List<Producto>> findAll() {
+    public ResponseEntity<List<Producto>> findAll(@RequestParam(name = "limit") Optional<String> limit) {
         List<Producto> productos = productosRepository.findAll();
         if (productos.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay productos registrados");
         } else {
-            return ResponseEntity.ok(productos);
+            if (limit.isPresent()) {
+                try {
+                    return ResponseEntity.ok(productos.subList(0, Integer.parseInt(limit.get())));
+                } catch (Exception e) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: " + e.getMessage());
+                }
+            } else {
+                return ResponseEntity.ok(productos);
+            }
         }
     }
 
