@@ -73,6 +73,32 @@
 			"response": []
 		},
 		{
+			"name": "GET ALL NAME",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6969/rest/productos?nombre=co",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"rest",
+						"productos"
+					],
+					"query": [
+						{
+							"key": "nombre",
+							"value": "co"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST",
 			"request": {
 				"method": "POST",

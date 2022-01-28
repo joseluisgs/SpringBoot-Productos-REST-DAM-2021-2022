@@ -28,22 +28,29 @@ public class ProductosRestController {
 
     // Obtener todos los productos
     @GetMapping("/productos")
-    public ResponseEntity<List<Producto>> findAll(@RequestParam(name = "limit") Optional<String> limit) {
-        List<Producto> productos = productosRepository.findAll();
-        if (productos.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay productos registrados");
+    public ResponseEntity<List<Producto>> findAll(@RequestParam(name = "limit") Optional<String> limit,
+                                                  @RequestParam(name = "nombre") Optional<String> nombre) {
+        List<Producto> productos = null;
+        if (nombre.isPresent()) {
+            productos = productosRepository.findByNombreContainsIgnoreCase(nombre.get());
         } else {
-            if (limit.isPresent()) {
-                try {
-                    return ResponseEntity.ok(productos.subList(0, Integer.parseInt(limit.get())));
-                } catch (Exception e) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: " + e.getMessage());
-                }
-            } else {
+            productos = productosRepository.findAll();
+        }
+        if (limit.isPresent() && !productos.isEmpty() && productos.size() > Integer.parseInt(limit.get())) {
+            try {
+                return ResponseEntity.ok(productos.subList(0, Integer.parseInt(limit.get())));
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: " + e.getMessage());
+            }
+        } else {
+            if (!productos.isEmpty()) {
                 return ResponseEntity.ok(productos);
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay productos");
             }
         }
     }
+
 
     // Obtener un producto por id
     @GetMapping("/productos/{id}")
