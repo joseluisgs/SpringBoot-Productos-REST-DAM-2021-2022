@@ -22,6 +22,12 @@ public class ProductosRestController {
     @Autowired
     ProductosRepository productosRepository;
 
+    @CrossOrigin(origins = "http://localhost:6969") //
+    // Indicamos sobre que puerto u orignes dejamos que actue (navegador) En nuestro caso no habría problemas
+    // Pero es bueno tenerlo en cuenta si tenemos en otro serviror una app en angular, vue android o similar
+    // Pero es inviable para API consumida por muchos terceros. // Debes probar con un cliente desde ese puerto
+    // Mejor hacer un filtro, ver MyConfig.java
+
     // test
     @GetMapping("/test")
     public String test() {
