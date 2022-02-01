@@ -1,12 +1,14 @@
 package es.joseluisgs.springdam.controllers;
 
+import es.joseluisgs.springdam.errors.GeneralBadRequestException;
+import es.joseluisgs.springdam.errors.productos.ProductoBadRequestException;
+import es.joseluisgs.springdam.errors.productos.ProductoNotFoundException;
+import es.joseluisgs.springdam.errors.productos.ProductosNotFoundException;
 import es.joseluisgs.springdam.models.Producto;
 import es.joseluisgs.springdam.repositories.ProductosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,23 +33,26 @@ public class ProductosRestController {
     public ResponseEntity<List<Producto>> findAll(@RequestParam(name = "limit") Optional<String> limit,
                                                   @RequestParam(name = "nombre") Optional<String> nombre) {
         List<Producto> productos = null;
-        if (nombre.isPresent()) {
-            productos = productosRepository.findByNombreContainsIgnoreCase(nombre.get());
-        } else {
-            productos = productosRepository.findAll();
-        }
-        if (limit.isPresent() && !productos.isEmpty() && productos.size() > Integer.parseInt(limit.get())) {
-            try {
-                return ResponseEntity.ok(productos.subList(0, Integer.parseInt(limit.get())));
-            } catch (Exception e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: " + e.getMessage());
-            }
-        } else {
-            if (!productos.isEmpty()) {
-                return ResponseEntity.ok(productos);
+        try {
+            if (nombre.isPresent()) {
+                productos = productosRepository.findByNombreContainsIgnoreCase(nombre.get());
             } else {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay productos");
+                productos = productosRepository.findAll();
             }
+
+            if (limit.isPresent() && !productos.isEmpty() && productos.size() > Integer.parseInt(limit.get())) {
+
+                return ResponseEntity.ok(productos.subList(0, Integer.parseInt(limit.get())));
+
+            } else {
+                if (!productos.isEmpty()) {
+                    return ResponseEntity.ok(productos);
+                } else {
+                    throw new ProductosNotFoundException();
+                }
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
         }
     }
 
@@ -57,7 +62,7 @@ public class ProductosRestController {
     public ResponseEntity<Producto> findById(@PathVariable Long id) {
         Producto producto = productosRepository.findById(id).orElse(null);
         if (producto == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el producto con id: " + id);
+            throw new ProductoNotFoundException(id);
         } else {
             return ResponseEntity.ok(producto);
         }
@@ -69,10 +74,20 @@ public class ProductosRestController {
         try {
             producto.setCreatedAt(LocalDateTime.now());
             producto.setId(null); // Por si me llega un id
+            // Comprobamos los campos obligatorios
+            if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
+                throw new ProductoBadRequestException("Nombre", "El nombre es obligatorio");
+            }
+            if (producto.getPrecio() < 0) {
+                throw new ProductoBadRequestException("Precio", "El precio debe ser mayor que 0");
+            }
+            if (producto.getStock() < 0) {
+                throw new ProductoBadRequestException("Stock", "El stock debe ser mayor o igual que 0");
+            }
             Producto productoInsertado = productosRepository.save(producto);
             return ResponseEntity.ok(productoInsertado);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: " + e.getMessage());
+            throw new GeneralBadRequestException("Insertar", "Error al insertar el producto. Campos incorrectos");
         }
     }
 
@@ -82,8 +97,17 @@ public class ProductosRestController {
         try {
             Producto productoActualizado = productosRepository.findById(id).orElse(null);
             if (productoActualizado == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el producto con id: " + id);
+                throw new ProductoNotFoundException(id);
             } else {
+                if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
+                    throw new ProductoBadRequestException("Nombre", "El nombre es obligatorio");
+                }
+                if (producto.getPrecio() < 0) {
+                    throw new ProductoBadRequestException("Precio", "El precio debe ser mayor que 0");
+                }
+                if (producto.getStock() < 0) {
+                    throw new ProductoBadRequestException("Stock", "El stock debe ser mayor o igual que 0");
+                }
                 productoActualizado.setNombre(producto.getNombre());
                 productoActualizado.setPrecio(producto.getPrecio());
                 productoActualizado.setStock(producto.getStock());
@@ -92,7 +116,7 @@ public class ProductosRestController {
                 return ResponseEntity.ok(productoActualizado);
             }
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: " + e.getMessage());
+            throw new GeneralBadRequestException("Actualizar", "Error al actualizar el producto. Campos incorrectos");
         }
     }
 
@@ -102,13 +126,13 @@ public class ProductosRestController {
         try {
             Producto producto = productosRepository.findById(id).orElse(null);
             if (producto == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el producto con id: " + id);
+                throw new ProductoNotFoundException(id);
             } else {
                 productosRepository.delete(producto);
                 return ResponseEntity.ok(producto);
             }
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: " + e.getMessage());
+            throw new GeneralBadRequestException("Eliminar", "Error al borrar el producto");
         }
     }
 
