@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequestMapping("/rest")
 public class ProductosRestController {
     @Autowired
-    ProductosRepository productosRepository;
+    private ProductosRepository productosRepository;
 
     @CrossOrigin(origins = "http://localhost:6969") //
     // Indicamos sobre que puerto u orignes dejamos que actue (navegador) En nuestro caso no habría problemas
