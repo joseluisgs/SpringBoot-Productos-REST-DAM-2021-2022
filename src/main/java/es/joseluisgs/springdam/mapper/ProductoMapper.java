@@ -1,6 +1,7 @@
 package es.joseluisgs.springdam.mapper;
 
 import es.joseluisgs.springdam.dto.CreateProductoDTO;
+import es.joseluisgs.springdam.dto.ListProductosDTO;
 import es.joseluisgs.springdam.dto.ProductoDTO;
 import es.joseluisgs.springdam.models.Producto;
 import lombok.RequiredArgsConstructor;
@@ -38,4 +39,11 @@ public class ProductoMapper {
     public Producto fromDTO(CreateProductoDTO productoDTO) {
         return modelMapper.map(productoDTO, Producto.class);
     }
+
+    public ListProductosDTO toListDTO(List<Producto> productos) {
+        ListProductosDTO listProductosDTO = new ListProductosDTO();
+        listProductosDTO.setData(productos.stream().map(this::toDTO).collect(Collectors.toList()));
+        return listProductosDTO;
+    }
+
 }

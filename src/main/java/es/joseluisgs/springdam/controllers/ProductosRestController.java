@@ -180,5 +180,35 @@ public class ProductosRestController {
 
     }
 
+    // Obtener todos los productos
+    @GetMapping("/productos/all")
+    public ResponseEntity<?> listado(@RequestParam(name = "limit") Optional<String> limit,
+                                     @RequestParam(name = "nombre") Optional<String> nombre) {
+        List<Producto> productos = null;
+        try {
+            if (nombre.isPresent()) {
+                productos = productosRepository.findByNombreContainsIgnoreCase(nombre.get());
+            } else {
+                productos = productosRepository.findAll();
+            }
+
+            if (limit.isPresent() && !productos.isEmpty() && productos.size() > Integer.parseInt(limit.get())) {
+
+                return ResponseEntity.ok(productoMapper.toListDTO(
+                        productos.subList(0, Integer.parseInt(limit.get())))
+                );
+
+            } else {
+                if (!productos.isEmpty()) {
+                    return ResponseEntity.ok(productoMapper.toListDTO(productos));
+                } else {
+                    throw new ProductosNotFoundException();
+                }
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
+        }
+    }
+
 
 }
