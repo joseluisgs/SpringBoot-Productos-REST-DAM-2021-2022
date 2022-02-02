@@ -25,7 +25,7 @@ public class Producto {
     private double precio;
     private int stock;
     private String imagen;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 }
 

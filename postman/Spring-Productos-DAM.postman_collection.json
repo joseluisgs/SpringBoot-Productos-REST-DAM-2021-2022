@@ -6,186 +6,288 @@
 	},
 	"item": [
 		{
-			"name": "GET ALL",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:6969/rest/productos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "6969",
-					"path": [
-						"rest",
-						"productos"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET BY ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:6969/rest/productos/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "6969",
-					"path": [
-						"rest",
-						"productos",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET ALL LIMIT",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:6969/rest/productos?limit=2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "6969",
-					"path": [
-						"rest",
-						"productos"
-					],
-					"query": [
-						{
-							"key": "limit",
-							"value": "2"
+			"name": "Productos",
+			"item": [
+				{
+					"name": "GET ALL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos"
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET ALL NAME",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:6969/rest/productos?nombre=co",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "6969",
-					"path": [
-						"rest",
-						"productos"
-					],
-					"query": [
-						{
-							"key": "nombre",
-							"value": "co"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"nombre\": \"POST\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:6969/rest/productos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "6969",
-					"path": [
-						"rest",
-						"productos"
-					]
+				{
+					"name": "GET BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/productos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL LIMIT",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/productos?limit=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL NAME",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/productos?nombre=co",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "co"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"nombre\": \"POST\",\n    \"precio\": 9.5,\n    \"stock\": 25\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1999,\n    \"nombre\": \"PUT\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/productos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1999,\n    \"nombre\": \"PUT\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/productos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST CREATE with Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/link/Proyectos/Spring-Productos-DAM/postman/nuevoproducto.jpg"
+								},
+								{
+									"key": "producto",
+									"type": "file",
+									"src": "/home/link/Proyectos/Spring-Productos-DAM/postman/nuevoproducto.json"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/productos/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos",
+								"create"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "PUT",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": 1999,\n    \"nombre\": \"PUT\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Uploads",
+			"item": [
+				{
+					"name": "GET File",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/files/fichero.jpg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"files",
+								"fichero.jpg"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:6969/rest/productos/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "6969",
-					"path": [
-						"rest",
-						"productos",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": 1999,\n    \"nombre\": \"PUT\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "POST File",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/link/Proyectos/SpringDAM/postman/Spring-Productos-DAM.postman_collection.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"files"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:6969/rest/productos/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "6969",
-					"path": [
-						"rest",
-						"productos",
-						"1"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }

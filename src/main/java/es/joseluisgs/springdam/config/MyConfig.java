@@ -9,11 +9,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MyConfig {
 
-    // Creamos el bean para el wrapper
+    // Creamos el bean para el Mapper para usarlo en todo el proyecto (es global)
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
 
     //	@Bean
     // Cors para permitir cualquier petición
