@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -18,8 +17,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/rest")
 public class FilesRestController {
-    @Autowired
     private StorageService storageService;
+
+    // También podemos inyectar dependencias por el setter
+    @Autowired
+    public void setStorageService(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
     // Devuelve el fichero indicado por fichero y su contenido
     // Usamos el request para tener los datos de la petición
@@ -56,11 +60,7 @@ public class FilesRestController {
         try {
             if (!file.isEmpty()) {
                 String imagen = storageService.store(file);
-                urlImagen = MvcUriComponentsBuilder
-                        // El segundo argumento es necesario solo cuando queremos obtener la imagen
-                        // En este caso tan solo necesitamos obtener la URL
-                        .fromMethodName(FilesRestController.class, "serveFile", imagen, null)
-                        .build().toUriString();
+                urlImagen = storageService.getUrl(imagen);
                 Map<String, Object> response = Map.of("url", urlImagen);
                 return ResponseEntity.status(HttpStatus.CREATED).body(response);
             } else {

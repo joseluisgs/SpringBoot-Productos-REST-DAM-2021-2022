@@ -40,4 +40,7 @@ public interface StorageService {
     // Borra todos los ficheros
     void deleteAll();
 
+    // Obtiene la URL del fichero
+    String getUrl(String filename);
+
 }

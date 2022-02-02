@@ -1,5 +1,6 @@
 package es.joseluisgs.springdam.services.uploads;
 
+import es.joseluisgs.springdam.controllers.FilesRestController;
 import es.joseluisgs.springdam.errors.storage.StorageException;
 import es.joseluisgs.springdam.errors.storage.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,6 +160,15 @@ public class FileSystemStorageService implements StorageService {
             throw new StorageException("Error al eliminar un fichero", e);
         }
 
+    }
+
+    @Override
+    public String getUrl(String filename) {
+        return MvcUriComponentsBuilder
+                // El segundo argumento es necesario solo cuando queremos obtener la imagen
+                // En este caso tan solo necesitamos obtener la URL
+                .fromMethodName(FilesRestController.class, "serveFile", filename, null)
+                .build().toUriString();
     }
 
 }

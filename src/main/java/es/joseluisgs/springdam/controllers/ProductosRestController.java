@@ -6,9 +6,12 @@ import es.joseluisgs.springdam.errors.productos.ProductoNotFoundException;
 import es.joseluisgs.springdam.errors.productos.ProductosNotFoundException;
 import es.joseluisgs.springdam.models.Producto;
 import es.joseluisgs.springdam.repositories.ProductosRepository;
+import es.joseluisgs.springdam.services.uploads.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,8 +22,17 @@ import java.util.Optional;
 // Definimos la url o entrada de la API REST, este caso la raíz: localhost:8080/rest/
 @RequestMapping("/rest")
 public class ProductosRestController {
+    private final ProductosRepository productosRepository;
+    private final StorageService storageService;
+
+    // Inyección de dependencias por constructor
+    // Es el método recomendado con el setter y no usando en el campo
+    // https://blog.marcnuri.com/inyeccion-de-campos-desaconsejada-field-injection-not-recommended-spring-ioc
     @Autowired
-    private ProductosRepository productosRepository;
+    public ProductosRestController(ProductosRepository productosRepository, StorageService storageService) {
+        this.productosRepository = productosRepository;
+        this.storageService = storageService;
+    }
 
     @CrossOrigin(origins = "http://localhost:6969") //
     // Indicamos sobre que puerto u orignes dejamos que actue (navegador) En nuestro caso no habría problemas
@@ -81,21 +93,14 @@ public class ProductosRestController {
             producto.setCreatedAt(LocalDateTime.now());
             producto.setId(null); // Por si me llega un id
             // Comprobamos los campos obligatorios
-            if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
-                throw new ProductoBadRequestException("Nombre", "El nombre es obligatorio");
-            }
-            if (producto.getPrecio() < 0) {
-                throw new ProductoBadRequestException("Precio", "El precio debe ser mayor que 0");
-            }
-            if (producto.getStock() < 0) {
-                throw new ProductoBadRequestException("Stock", "El stock debe ser mayor o igual que 0");
-            }
+            checkProductoData(producto);
             Producto productoInsertado = productosRepository.save(producto);
             return ResponseEntity.ok(productoInsertado);
         } catch (Exception e) {
             throw new GeneralBadRequestException("Insertar", "Error al insertar el producto. Campos incorrectos");
         }
     }
+
 
     // Actualiza producto por id
     @PutMapping("/productos/{id}")
@@ -105,15 +110,8 @@ public class ProductosRestController {
             if (productoActualizado == null) {
                 throw new ProductoNotFoundException(id);
             } else {
-                if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
-                    throw new ProductoBadRequestException("Nombre", "El nombre es obligatorio");
-                }
-                if (producto.getPrecio() < 0) {
-                    throw new ProductoBadRequestException("Precio", "El precio debe ser mayor que 0");
-                }
-                if (producto.getStock() < 0) {
-                    throw new ProductoBadRequestException("Stock", "El stock debe ser mayor o igual que 0");
-                }
+                checkProductoData(producto);
+                // Actualizamos los datos
                 productoActualizado.setNombre(producto.getNombre());
                 productoActualizado.setPrecio(producto.getPrecio());
                 productoActualizado.setStock(producto.getStock());
@@ -141,5 +139,46 @@ public class ProductosRestController {
             throw new GeneralBadRequestException("Eliminar", "Error al borrar el producto");
         }
     }
+
+    // Comprobar los campos obligatorios
+    private void checkProductoData(Producto producto) {
+        if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
+            throw new ProductoBadRequestException("Nombre", "El nombre es obligatorio");
+        }
+        if (producto.getPrecio() < 0) {
+            throw new ProductoBadRequestException("Precio", "El precio debe ser mayor que 0");
+        }
+        if (producto.getStock() < 0) {
+            throw new ProductoBadRequestException("Stock", "El stock debe ser mayor o igual que 0");
+        }
+    }
+
+    @PostMapping(value = "/productos/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> nuevoProducto(
+            @RequestPart("producto") Producto producto,
+            @RequestPart("file") MultipartFile file) {
+
+        String urlImagen = null;
+
+        try {
+            // Comprobamos los datos
+            producto.setCreatedAt(LocalDateTime.now());
+            producto.setId(null); // Por si me llega un id
+            // Comprobamos los campos obligatorios
+            checkProductoData(producto);
+
+            if (!file.isEmpty()) {
+                String imagen = storageService.store(file);
+                urlImagen = storageService.getUrl(imagen);
+                producto.setImagen(urlImagen);
+            }
+            Producto productoInsertado = productosRepository.save(producto);
+            return ResponseEntity.ok(productoInsertado);
+        } catch (ProductoNotFoundException ex) {
+            throw new GeneralBadRequestException("Insertar", "Error al insertar el producto. Campos incorrectos");
+        }
+
+    }
+
 
 }
