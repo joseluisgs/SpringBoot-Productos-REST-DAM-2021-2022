@@ -1,6 +1,6 @@
 package es.joseluisgs.springdam.controllers;
 
-import es.joseluisgs.springdam.dto.CreateProductoDTO;
+import es.joseluisgs.springdam.dto.productos.CreateProductoDTO;
 import es.joseluisgs.springdam.errors.GeneralBadRequestException;
 import es.joseluisgs.springdam.errors.productos.ProductoBadRequestException;
 import es.joseluisgs.springdam.errors.productos.ProductoNotFoundException;
