@@ -1,8 +1,8 @@
 package es.joseluisgs.springdam.mapper;
 
-import es.joseluisgs.springdam.dto.CreateProductoDTO;
-import es.joseluisgs.springdam.dto.ListProductosDTO;
-import es.joseluisgs.springdam.dto.ProductoDTO;
+import es.joseluisgs.springdam.dto.productos.CreateProductoDTO;
+import es.joseluisgs.springdam.dto.productos.ListProductosDTO;
+import es.joseluisgs.springdam.dto.productos.ProductoDTO;
 import es.joseluisgs.springdam.models.Producto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
