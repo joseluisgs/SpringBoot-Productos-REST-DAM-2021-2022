@@ -1,4 +1,4 @@
-package es.joseluisgs.springdam.mapper;
+package es.joseluisgs.springdam.mappers;
 
 import es.joseluisgs.springdam.dto.productos.CreateProductoDTO;
 import es.joseluisgs.springdam.dto.productos.ListProductosDTO;

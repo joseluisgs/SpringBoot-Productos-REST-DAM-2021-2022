@@ -17,6 +17,6 @@ public class ProductoDTO {
     private String imagen;
     private LocalDateTime createdAt;
     // Por ejemplo sin en modelo de prodyuto este tuviese una categoria, y solo queremos devolver su nombre
-    // Lo haríamos aquí, y luego en e mapper es donde cogeríamos el nombre. Ver...
+    // Lo haríamos aquí, y luego en e mappers es donde cogeríamos el nombre. Ver...
     //private String categoria;
 }

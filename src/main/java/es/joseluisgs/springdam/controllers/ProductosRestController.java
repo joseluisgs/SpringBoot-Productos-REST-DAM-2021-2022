@@ -6,7 +6,7 @@ import es.joseluisgs.springdam.errors.GeneralBadRequestException;
 import es.joseluisgs.springdam.errors.productos.ProductoBadRequestException;
 import es.joseluisgs.springdam.errors.productos.ProductoNotFoundException;
 import es.joseluisgs.springdam.errors.productos.ProductosNotFoundException;
-import es.joseluisgs.springdam.mapper.ProductoMapper;
+import es.joseluisgs.springdam.mappers.ProductoMapper;
 import es.joseluisgs.springdam.models.Producto;
 import es.joseluisgs.springdam.repositories.ProductosRepository;
 import es.joseluisgs.springdam.services.uploads.StorageService;

@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-// Con el Builder me ahorro el mapper...
+// Con el Builder me ahorro el mappers...
 public class ListProductoPageDTO {
     private final LocalDateTime consulta = LocalDateTime.now();
     private final String project = "SpringDam";
