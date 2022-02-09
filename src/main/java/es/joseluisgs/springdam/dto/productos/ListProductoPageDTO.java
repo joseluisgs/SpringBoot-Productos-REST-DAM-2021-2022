@@ -1,4 +1,4 @@
-package es.joseluisgs.springdam.dto;
+package es.joseluisgs.springdam.dto.productos;
 
 import lombok.Builder;
 import lombok.Getter;
