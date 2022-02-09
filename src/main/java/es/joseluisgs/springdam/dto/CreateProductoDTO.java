@@ -8,7 +8,6 @@ import lombok.Setter;
 
 // Getter & setter
 public class CreateProductoDTO {
-
     private String nombre;
     private double precio;
     private int stock;

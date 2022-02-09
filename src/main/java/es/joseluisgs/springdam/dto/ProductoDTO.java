@@ -19,5 +19,4 @@ public class ProductoDTO {
     // Por ejemplo sin en modelo de prodyuto este tuviese una categoria, y solo queremos devolver su nombre
     // Lo haríamos aquí, y luego en e mapper es donde cogeríamos el nombre. Ver...
     //private String categoria;
-
 }

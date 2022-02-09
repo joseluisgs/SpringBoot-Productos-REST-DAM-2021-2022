@@ -1,6 +1,7 @@
 package es.joseluisgs.springdam.controllers;
 
 import es.joseluisgs.springdam.dto.CreateProductoDTO;
+import es.joseluisgs.springdam.dto.ListProductoPageDTO;
 import es.joseluisgs.springdam.errors.GeneralBadRequestException;
 import es.joseluisgs.springdam.errors.productos.ProductoBadRequestException;
 import es.joseluisgs.springdam.errors.productos.ProductoNotFoundException;
@@ -10,6 +11,9 @@ import es.joseluisgs.springdam.models.Producto;
 import es.joseluisgs.springdam.repositories.ProductosRepository;
 import es.joseluisgs.springdam.services.uploads.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -182,29 +186,31 @@ public class ProductosRestController {
 
     // Obtener todos los productos
     @GetMapping("/productos/all")
-    public ResponseEntity<?> listado(@RequestParam(name = "limit") Optional<String> limit,
-                                     @RequestParam(name = "nombre") Optional<String> nombre) {
-        List<Producto> productos = null;
+    public ResponseEntity<?> listado(
+            // Podemos buscar por los campos que quieramos... nombre, precio... así construir consultas
+            @RequestParam(required = false, name = "nombre") Optional<String> nombre,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        // Consulto en base a las páginas
+        Pageable paging = PageRequest.of(page, size);
+        Page<Producto> pagedResult;
         try {
             if (nombre.isPresent()) {
-                productos = productosRepository.findByNombreContainsIgnoreCase(nombre.get());
+                pagedResult = productosRepository.findByNombreContainsIgnoreCase(nombre.get(), paging);
             } else {
-                productos = productosRepository.findAll();
+                pagedResult = productosRepository.findAll(paging);
             }
-
-            if (limit.isPresent() && !productos.isEmpty() && productos.size() > Integer.parseInt(limit.get())) {
-
-                return ResponseEntity.ok(productoMapper.toListDTO(
-                        productos.subList(0, Integer.parseInt(limit.get())))
-                );
-
-            } else {
-                if (!productos.isEmpty()) {
-                    return ResponseEntity.ok(productoMapper.toListDTO(productos));
-                } else {
-                    throw new ProductosNotFoundException();
-                }
-            }
+            // De la página saco la lista de productos
+            List<Producto> productos = pagedResult.getContent();
+            // Mapeo al DTO. Si quieres ver toda la info de las paginas pon pageResult.
+            ListProductoPageDTO listProductoPageDTO = ListProductoPageDTO.builder()
+                    .data(productoMapper.toDTO(productos))
+                    .totalPages(pagedResult.getTotalPages())
+                    .totalElements(pagedResult.getTotalElements())
+                    .currentPage(pagedResult.getNumber())
+                    .build();
+            return ResponseEntity.ok(listProductoPageDTO);
         } catch (Exception e) {
             throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
         }

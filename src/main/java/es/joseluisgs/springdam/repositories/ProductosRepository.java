@@ -1,6 +1,8 @@
 package es.joseluisgs.springdam.repositories;
 
 import es.joseluisgs.springdam.models.Producto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,7 +14,10 @@ public interface ProductosRepository extends JpaRepository<Producto, Long> {
     // Buscamos los productos por su nombre
     List<Producto> findByNombre(String nombre);
 
+    // Por nombre y En Páginas
     List<Producto> findByNombreContainsIgnoreCase(String nombre);
+
+    Page<Producto> findByNombreContainsIgnoreCase(String nombre, Pageable pageable);
 
 
 }

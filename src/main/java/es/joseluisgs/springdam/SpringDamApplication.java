@@ -35,11 +35,11 @@ public class SpringDamApplication {
     public CommandLineRunner initProductos(ProductosRepository productosRepository) {
         return (args) -> {
             productosRepository.save(
-                    Producto.builder().nombre("Init").precio(1.5).stock(5).createdAt(LocalDateTime.now())
+                    Producto.builder().nombre("Init").precio(1.5).stock(5).createdAt(LocalDateTime.now()).imagen("https://api.lorem.space/image?w=150&h=180")
                             .build()
             );
             productosRepository.save(
-                    Producto.builder().nombre("Init2").precio(5.55).stock(25).createdAt(LocalDateTime.now())
+                    Producto.builder().nombre("Init2").precio(5.55).stock(25).createdAt(LocalDateTime.now()).imagen("https://api.lorem.space/image?w=150&h=180")
                             .build()
             );
         };
