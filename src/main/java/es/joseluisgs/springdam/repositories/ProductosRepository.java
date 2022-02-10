@@ -19,5 +19,9 @@ public interface ProductosRepository extends JpaRepository<Producto, Long> {
 
     Page<Producto> findByNombreContainsIgnoreCase(String nombre, Pageable pageable);
 
+    Page<Producto> findByPrecioGreaterThanEqualOrderByNombreAsc(double precio, Pageable pageable);
+
+    Page<Producto> findByNombreContainsIgnoreCaseAndPrecioGreaterThanEqualOrderByNombreAsc(String nombre, double precio, Pageable pageable);
+
 
 }

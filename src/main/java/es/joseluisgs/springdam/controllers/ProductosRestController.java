@@ -189,6 +189,7 @@ public class ProductosRestController {
     public ResponseEntity<?> listado(
             // Podemos buscar por los campos que quieramos... nombre, precio... así construir consultas
             @RequestParam(required = false, name = "nombre") Optional<String> nombre,
+            @RequestParam(required = false, name = "precio") Optional<Double> precio,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -196,16 +197,20 @@ public class ProductosRestController {
         Pageable paging = PageRequest.of(page, size);
         Page<Producto> pagedResult;
         try {
-            if (nombre.isPresent()) {
+            if (nombre.isPresent() && precio.isPresent()) {
+                pagedResult = productosRepository.findByNombreContainsIgnoreCaseAndPrecioGreaterThanEqualOrderByNombreAsc(nombre.get(), precio.get(), paging);
+            } else if (nombre.isPresent()) {
                 pagedResult = productosRepository.findByNombreContainsIgnoreCase(nombre.get(), paging);
+            } else if (precio.isPresent()) {
+                pagedResult = productosRepository.findByPrecioGreaterThanEqualOrderByNombreAsc(precio.get(), paging);
             } else {
                 pagedResult = productosRepository.findAll(paging);
             }
             // De la página saco la lista de productos
-            List<Producto> productos = pagedResult.getContent();
+            //List<Producto> productos = pagedResult.getContent();
             // Mapeo al DTO. Si quieres ver toda la info de las paginas pon pageResult.
             ListProductoPageDTO listProductoPageDTO = ListProductoPageDTO.builder()
-                    .data(productoMapper.toDTO(productos))
+                    .data(productoMapper.toDTO(pagedResult.getContent()))
                     .totalPages(pagedResult.getTotalPages())
                     .totalElements(pagedResult.getTotalElements())
                     .currentPage(pagedResult.getNumber())

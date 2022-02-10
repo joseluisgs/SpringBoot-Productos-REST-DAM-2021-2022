@@ -108,7 +108,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n    \"nombre\": \"POST\",\n    \"precio\": 9.5,\n    \"stock\": 25\n}",
+							"raw": "{\n    \"nombre\": \"POST\",\n    \"precio\": 9.5,\n    \"stock\": 25\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -208,12 +208,7 @@
 									"type": "file",
 									"src": "/home/link/Proyectos/Spring-Productos-DAM/postman/nuevoproducto.json"
 								}
-							],
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							]
 						},
 						"url": {
 							"raw": "http://localhost:6969/rest/productos/create",
@@ -226,6 +221,66 @@
 								"rest",
 								"productos",
 								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL One DTO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/productos/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL One DTO Page Filter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/productos/all?nombre=t&precio=6&page=1&size=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"productos",
+								"all"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "t"
+								},
+								{
+									"key": "precio",
+									"value": "6"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "1"
+								}
 							]
 						}
 					},

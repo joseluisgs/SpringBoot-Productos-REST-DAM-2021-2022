@@ -22,8 +22,8 @@ public class Producto {
     private Long id;
 
     private String nombre;
-    private double precio;
-    private int stock;
+    private Double precio;
+    private Integer stock;
     private String imagen;
     private LocalDateTime createdAt = LocalDateTime.now();
 
