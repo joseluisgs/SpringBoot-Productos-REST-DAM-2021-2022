@@ -1,20 +1,12 @@
-package es.joseluisgs.springdam.config;
+package es.joseluisgs.springdam.config.cors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class MyConfig {
-
-    // Creamos el bean para el Mapper para usarlo en todo el proyecto (es global)
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
+public class CorsConfig {
 
     //	@Bean
     // Cors para permitir cualquier petición

@@ -1,5 +1,6 @@
-package es.joseluisgs.springdam.controllers;
+package es.joseluisgs.springdam.controllers.files;
 
+import es.joseluisgs.springdam.config.APIConfig;
 import es.joseluisgs.springdam.errors.storage.StorageException;
 import es.joseluisgs.springdam.services.uploads.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/rest")
+@RequestMapping(APIConfig.API_PATH + "/files")
 public class FilesRestController {
     private StorageService storageService;
 
@@ -27,7 +28,7 @@ public class FilesRestController {
 
     // Devuelve el fichero indicado por fichero y su contenido
     // Usamos el request para tener los datos de la petición
-    @GetMapping(value = "/files/{filename:.+}")
+    @GetMapping(value = "{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename, HttpServletRequest request) {
         Resource file = storageService.loadAsResource(filename);
@@ -48,7 +49,7 @@ public class FilesRestController {
                 .body(file);
     }
 
-    @PostMapping(value = "/files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     // Aunque no es obligatorio, podemos indicar que se consume multipart/form-data
     // Para ficheros usamos, Resuqest part, porque lo tenemos dividido en partes
     public ResponseEntity<Map<String, Object>> uploadFile(

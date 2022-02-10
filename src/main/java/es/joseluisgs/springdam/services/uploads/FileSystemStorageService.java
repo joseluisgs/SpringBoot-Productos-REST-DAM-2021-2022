@@ -1,6 +1,6 @@
 package es.joseluisgs.springdam.services.uploads;
 
-import es.joseluisgs.springdam.controllers.FilesRestController;
+import es.joseluisgs.springdam.controllers.files.FilesRestController;
 import es.joseluisgs.springdam.errors.storage.StorageException;
 import es.joseluisgs.springdam.errors.storage.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
