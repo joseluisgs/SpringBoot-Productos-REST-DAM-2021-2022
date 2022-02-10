@@ -1,4 +1,4 @@
-package es.joseluisgs.springdam.repositories;
+package es.joseluisgs.springdam.repositories.productos;
 
 import es.joseluisgs.springdam.models.Producto;
 import org.springframework.data.domain.Page;

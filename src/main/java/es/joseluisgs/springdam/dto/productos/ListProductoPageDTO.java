@@ -1,5 +1,6 @@
 package es.joseluisgs.springdam.dto.productos;
 
+import es.joseluisgs.springdam.config.APIConfig;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import java.util.List;
 public class ListProductoPageDTO {
     private final LocalDateTime consulta = LocalDateTime.now();
     private final String project = "SpringDam";
-    private final String version = "1.0";
+    private final String version = APIConfig.API_VERSION;
     private List<ProductoDTO> data;
     private int currentPage;
     private long totalElements;

@@ -1,7 +1,7 @@
 package es.joseluisgs.springdam;
 
 import es.joseluisgs.springdam.models.Producto;
-import es.joseluisgs.springdam.repositories.ProductosRepository;
+import es.joseluisgs.springdam.repositories.productos.ProductosRepository;
 import es.joseluisgs.springdam.services.uploads.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

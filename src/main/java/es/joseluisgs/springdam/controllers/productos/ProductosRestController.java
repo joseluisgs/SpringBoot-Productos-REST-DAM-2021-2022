@@ -1,5 +1,6 @@
-package es.joseluisgs.springdam.controllers;
+package es.joseluisgs.springdam.controllers.productos;
 
+import es.joseluisgs.springdam.config.APIConfig;
 import es.joseluisgs.springdam.dto.productos.CreateProductoDTO;
 import es.joseluisgs.springdam.dto.productos.ListProductoPageDTO;
 import es.joseluisgs.springdam.errors.GeneralBadRequestException;
@@ -8,7 +9,7 @@ import es.joseluisgs.springdam.errors.productos.ProductoNotFoundException;
 import es.joseluisgs.springdam.errors.productos.ProductosNotFoundException;
 import es.joseluisgs.springdam.mappers.ProductoMapper;
 import es.joseluisgs.springdam.models.Producto;
-import es.joseluisgs.springdam.repositories.ProductosRepository;
+import es.joseluisgs.springdam.repositories.productos.ProductosRepository;
 import es.joseluisgs.springdam.services.uploads.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,7 @@ import java.util.Optional;
 
 @RestController
 // Definimos la url o entrada de la API REST, este caso la raíz: localhost:8080/rest/
-@RequestMapping("/rest")
+@RequestMapping(APIConfig.API_PATH + "/productos")
 public class ProductosRestController {
     private final ProductosRepository productosRepository;
     private final StorageService storageService;
@@ -54,7 +55,7 @@ public class ProductosRestController {
     }
 
     // Obtener todos los productos
-    @GetMapping("/productos")
+    @GetMapping("")
     public ResponseEntity<?> findAll(@RequestParam(name = "limit") Optional<String> limit,
                                      @RequestParam(name = "nombre") Optional<String> nombre) {
         List<Producto> productos = null;
@@ -85,7 +86,7 @@ public class ProductosRestController {
 
 
     // Obtener un producto por id
-    @GetMapping("/productos/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Producto producto = productosRepository.findById(id).orElse(null);
         if (producto == null) {
@@ -96,7 +97,7 @@ public class ProductosRestController {
     }
 
     // Insertar producto
-    @PostMapping("/productos")
+    @PostMapping("")
     public ResponseEntity<?> save(@RequestBody CreateProductoDTO productoDTO) {
         try {
             // Comprobamos los campos obligatorios
@@ -111,7 +112,7 @@ public class ProductosRestController {
 
 
     // Actualiza producto por id. Podría ser un DTO si quisieramos
-    @PutMapping("/productos/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto) {
         try {
             Producto productoActualizado = productosRepository.findById(id).orElse(null);
@@ -133,7 +134,7 @@ public class ProductosRestController {
     }
 
     // Borrar producto por id
-    @DeleteMapping("/productos/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             Producto producto = productosRepository.findById(id).orElse(null);
@@ -161,7 +162,7 @@ public class ProductosRestController {
         }
     }
 
-    @PostMapping(value = "/productos/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> nuevoProducto(
             @RequestPart("producto") CreateProductoDTO productoDTO,
             @RequestPart("file") MultipartFile file) {
@@ -185,7 +186,7 @@ public class ProductosRestController {
     }
 
     // Obtener todos los productos
-    @GetMapping("/productos/all")
+    @GetMapping("/all")
     public ResponseEntity<?> listado(
             // Podemos buscar por los campos que quieramos... nombre, precio... así construir consultas
             @RequestParam(required = false, name = "nombre") Optional<String> nombre,

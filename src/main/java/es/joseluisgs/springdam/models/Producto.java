@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ public class Producto {
     private Double precio;
     private Integer stock;
     private String imagen;
+    @CreatedDate
     private LocalDateTime createdAt = LocalDateTime.now();
 
 }
