@@ -323,7 +323,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/Users/link/Proyectos/SpringDAM/postman/Spring-Productos-DAM.postman_collection.json"
+									"src": "/home/link/Proyectos/Spring-Productos-DAM/postman/nuevoproducto.jpg"
 								}
 							]
 						},
@@ -337,6 +337,354 @@
 							"path": [
 								"rest",
 								"files"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "POST Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"prueba\",\n    \"avatar\": \"https://api.lorem.space/image/face?w=150&h=150\",\n    \"fullname\": \"Usuario de Prueba\",\n    \"email\": \"usuario@prueba.es\",\n    \"password\": \"123456789\",\n    \"password2\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/usuarios/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Login (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"Admin1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/usuarios/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Login (User)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"marialopez\",\n    \"password\": \"Marialopez1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/usuarios/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTY0NDUxMzQzNiwiZXhwIjoxNjQ0NTk5ODM2LCJmdWxsbmFtZSI6IlVzdWFyaW8gZGUgUHJ1ZWJhIiwicm9sZXMiOiJVU0VSIn0.jObNsmH7dQ9iD8wbguERa3LX7ileRZ6r_r2BsAmF2hXSEyc91CZ7FMl0Y3rnDpN-ZQr5STKOiswI0oqInvtcEQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"prueba\",\n    \"avatar\": \"https://api.lorem.space/image/face?w=150&h=150\",\n    \"fullname\": \"Usuario de Prueba\",\n    \"email\": \"usuario@prueba.es\",\n    \"password\": \"123456789\",\n    \"password2\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/usuarios/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"usuarios",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos Auth",
+			"item": [
+				{
+					"name": "GET ALL (All Users)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTY0NDUxMzQzNiwiZXhwIjoxNjQ0NTk5ODM2LCJmdWxsbmFtZSI6IlVzdWFyaW8gZGUgUHJ1ZWJhIiwicm9sZXMiOiJVU0VSIn0.jObNsmH7dQ9iD8wbguERa3LX7ileRZ6r_r2BsAmF2hXSEyc91CZ7FMl0Y3rnDpN-ZQr5STKOiswI0oqInvtcEQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/auth/productos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"auth",
+								"productos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL One DTO (All Users)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTY0NDUxMzQzNiwiZXhwIjoxNjQ0NTk5ODM2LCJmdWxsbmFtZSI6IlVzdWFyaW8gZGUgUHJ1ZWJhIiwicm9sZXMiOiJVU0VSIn0.jObNsmH7dQ9iD8wbguERa3LX7ileRZ6r_r2BsAmF2hXSEyc91CZ7FMl0Y3rnDpN-ZQr5STKOiswI0oqInvtcEQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6969/rest/auth/productos/all?nombre=t&precio=6&page=1&size=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"auth",
+								"productos",
+								"all"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "t"
+								},
+								{
+									"key": "precio",
+									"value": "6"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT (Only USER)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTY0NDUxMzQzNiwiZXhwIjoxNjQ0NTk5ODM2LCJmdWxsbmFtZSI6IlVzdWFyaW8gZGUgUHJ1ZWJhIiwicm9sZXMiOiJVU0VSIn0.jObNsmH7dQ9iD8wbguERa3LX7ileRZ6r_r2BsAmF2hXSEyc91CZ7FMl0Y3rnDpN-ZQr5STKOiswI0oqInvtcEQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1999,\n    \"nombre\": \"PUT\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/auth/productos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"auth",
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST (Only Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ0NTEzODY1LCJleHAiOjE2NDQ2MDAyNjUsImZ1bGxuYW1lIjoiQWRtaW4gYWRtaW4iLCJyb2xlcyI6IkFETUlOLCBVU0VSIn0.7tHee_032OZblSpI52TCu2gD51ZDCv5tS7lkweqWDtlrfWojuGh-nY4ct6y4XVENkl09fAyxlaA1b0zzjonlZg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"POST\",\n    \"precio\": 9.5,\n    \"stock\": 25\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/auth/productos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"auth",
+								"productos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE (Only Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ0NTEzODY1LCJleHAiOjE2NDQ2MDAyNjUsImZ1bGxuYW1lIjoiQWRtaW4gYWRtaW4iLCJyb2xlcyI6IkFETUlOLCBVU0VSIn0.7tHee_032OZblSpI52TCu2gD51ZDCv5tS7lkweqWDtlrfWojuGh-nY4ct6y4XVENkl09fAyxlaA1b0zzjonlZg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1999,\n    \"nombre\": \"PUT\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6969/rest/auth/productos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6969",
+							"path": [
+								"rest",
+								"auth",
+								"productos",
+								"1"
 							]
 						}
 					},
