@@ -93,22 +93,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/auth/productos/**").hasRole("ADMIN")
 
                 // Cuidado que la ruta a la consola de H2 está capada, debemos darle acceso a todos temporalmente
-                .antMatchers("/h2-console/**").permitAll()
+                //.antMatchers("/h2-console").permitAll()
+                // De la misma manera a swagger
+                //.antMatchers("/swagger-ui.html").permitAll()
 
-                // Resto de rutas, auteticadas.
-                .anyRequest().authenticated();
-        // O no, depende de nuestra política de seguridad
-        //.anyRequest().not().authenticated();
+                // Resto de rutas, auteticadas o no, tu decides, cuidado con la consola
+                // de H2
+                // y la documentación de Swagger
+                // que debes darle acceso si la necesitas.
+                //.anyRequest().authenticated();
+                // O no, depende de nuestra política de seguridad
+                .anyRequest().not().authenticated()
 
-        // De nuevo para la consola de H2 estas dos lineas
-        //.and().csrf().ignoringAntMatchers("/h2-console/**")
-        //.and().headers().frameOptions().sameOrigin();
+                // De nuevo para la consola de H2 estas dos lineas
+                .and().csrf().ignoringAntMatchers("/h2-console/**")
+                .and().headers().frameOptions().sameOrigin();
 
 
         // Será el encargado de coger el token y si es válido lo dejaremos pasar...
         // Añadimos el filtro (jwtAuthorizationFilter).
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-
 
     }
 
