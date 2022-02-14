@@ -25,6 +25,13 @@ Sencillo Microservicio para API Rest en Spring (SpringBoot) realizada conjuntame
       - [A nivel de setter](#a-nivel-de-setter)
   - [Fichero de propiedades](#fichero-de-propiedades)
   - [Spring Data](#spring-data)
+    - [Definición de entidades](#definición-de-entidades)
+    - [Definiciones de consultas](#definiciones-de-consultas)
+  - [Spring Security](#spring-security)
+    - [JWT](#jwt)
+    - [Autenticación](#autenticación)
+    - [Autorización](#autorización)
+    - [Implementación en SpringBoot](#implementación-en-springboot)
   - [Autor](#autor)
     - [Contacto](#contacto)
   - [Licencia](#licencia)
@@ -107,8 +114,61 @@ A la hora de utilizar el contenedor de Spring es una buena práctica separar la 
 
 Lo habitual es definir los parámetros de configuración en ficheros de propiedades estándar de Java (.properties). Spring permite utilizar cómodamente este tipo de ficheros tal y como vamos a ver y con ello realizar la configuración de los beans sin pasar por el tedioso proceso de configuración de XML.
 
-## Spring Data
+Podemos tener distintos ficheros por ejemplo para desarrollo y producción.
 
+## Spring Data
+Spring Data es una librería de persistencia que nos permite acceder a bases de datos relacionales de forma sencilla. Para ello podemos extender de la clase [JpaRepository](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.repositories), que es una clase de repositorio de Spring Data con más funcionalidades, como pueden ser las operaciones de consulta, inserción, actualización y eliminación, así como las de paginación, ordenación o búsquedas.
+
+Podemos trabajar con BBDD relacionales de forma sencilla con Spring Data o usar la versión específica para MongoDB.
+
+### Definición de entidades
+Usaremos las anotaciones de JPA para definir entidades o colecciones, sus atributos y características de los mismos, así como las relacionales existentes.
+
+### Definiciones de consultas
+Podemos definir consultas personalizadas para las entidades de la aplicación. Para ello podemos usar la anotación @Query con JPQL o @NativeQuery y usar el lenguaje del motor de Base de Datos.
+
+Por otro lado, también podemos definir las consultas en base del nombre del método. Si lo definimos con una [signatura determinada con ellos se generará la consulta automáticamente](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation).
+
+## Spring Security
+[Spring Security](https://spring.io/projects/spring-security) es una librería de seguridad que nos permite controlar el acceso a nuestra aplicación permitiendo mecanismos de autenticación y autorización en base a roles.
+
+Para ello haremos uso de UserDetailsService, un servicio que nos permitirá cargar datos específicos del usuario.
+
+Además, actuará como middleware, analizando las rutas y con ellas a base de roles saber si se puede permitir el acceso a operar con ellas.
+
+![security](./images/security.png)
+
+### JWT
+Spring Security ofrece una librería para generar y verificar [JWT](https://jwt.io/introduction). Gracias a ella podemos realizar el proceso de autenticación y autorización. Json Web Token es un estándar que define una forma auto contenida de transmitir información como JSON. Consta de tres partes separadas por puntos.
+- Header: algoritmo (SHA256, HS512 …) y el tipo de token.
+- Payload: contiene las propiedades(claims) del token.
+- Signature: header (codificado en base64), payload (codificado en base64), una clave, y todo firmado con el algoritmo del header.
+- Claim: porción de información en el cuerpo del token.
+
+La arquitectura de Spring Security para JWT es la siguiente
+
+![jwt](./images/jwt01.png)
+
+### Autenticación
+![jwt02](./images/jwt03.jpeg)
+
+### Autorización
+![jwt03](./images/jwt02.jpeg)
+
+### Implementación en SpringBoot
+Podemos implementar la autenticación y autorización de Spring Security en SpringBoot con JWT de la siguiente manera.
+
+- Usuarios que extiendan de UserDetails, con ellos usaremos los mecanismos de Spring Security nos indica. Deberemos tener el campo username y password. Además usaremos una lista de roles para la parte de autenticación. 
+- CustomUserDetailsService que implementa UserDetailsService con los métodos: loadUserByUsername() y loadUserById().
+- Configuración del PasswordEncoder, por ejemplo con BCryptPasswordEncoder.
+- JwtTokenProvider, donde implementamos los datos del JWT y con ello generar los JWT según nuestras necesidades, así como verificar los mismos.
+- JwtAuthorizationFilter que extiende de OncePerRequestFilter. Nos permite definir el filtro de la cadena de autenticación/autorización en base al contenido del JWT y de nuestra información en BB.DD.
+- JwtAuthenticationEntryPoint que implementa AuthenticationEntryPoint. Nos permite definir el comportamiento de la aplicación cuando no se ha autenticado o el JWT no es el correcto.
+- SecurityConfig que extiende de WebSecurityConfigurerAdapter. Es la clase principal del sistema de Spring Security y se define en base a todas las anteriores.
+  - Usará userDetailsService y passwordEncoder.
+  - Su authenticationEntryPoint será en base a jwtAuthenticationEntryPoint
+  - Definiremos las políticas de acceso en base a roles si ha pasado la autenticación. Es decir, las políticas de autorización por rutas, o verbos HTTP.
+  - Aplicará todo estos procesos en base a a los filtros definidos en jwtAuthorizationFilter.
 
 ## Autor
 
