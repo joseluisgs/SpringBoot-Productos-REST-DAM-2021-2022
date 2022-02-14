@@ -56,7 +56,7 @@ public class ProductosRestController {
     }
 
     // Obtener todos los productos
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<?> findAll(@RequestParam(name = "limit") Optional<String> limit,
                                      @RequestParam(name = "nombre") Optional<String> nombre) {
         List<Producto> productos = null;
@@ -98,15 +98,15 @@ public class ProductosRestController {
     }
 
     // Insertar producto
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<?> save(@RequestBody CreateProductoDTO productoDTO) {
         try {
-            // Comprobamos los campos obligatorios
             Producto producto = productoMapper.fromDTO(productoDTO);
             checkProductoData(producto);
             Producto productoInsertado = productosRepository.save(producto);
             return ResponseEntity.ok(productoMapper.toDTO(productoInsertado));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new GeneralBadRequestException("Insertar", "Error al insertar el producto. Campos incorrectos");
         }
     }

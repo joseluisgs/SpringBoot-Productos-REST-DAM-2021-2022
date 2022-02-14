@@ -26,6 +26,7 @@ Sencillo Microservicio para API Rest en Spring (SpringBoot) realizada conjuntame
   - [DTO y Mappers](#dto-y-mappers)
   - [Fichero de propiedades](#fichero-de-propiedades)
   - [Spring Data](#spring-data)
+    - [Repositorios](#repositorios-1)
     - [Definición de entidades](#definición-de-entidades)
     - [Definiciones de consultas](#definiciones-de-consultas)
   - [Spring Security](#spring-security)
@@ -127,6 +128,12 @@ Podemos tener distintos ficheros por ejemplo para desarrollo y producción.
 ## Spring Data
 Spring Data es una librería de persistencia que nos permite acceder a bases de datos relacionales de forma sencilla. Para ello podemos extender de la clase [JpaRepository](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.repositories), que es una clase de repositorio de Spring Data con más funcionalidades, como pueden ser las operaciones de consulta, inserción, actualización y eliminación, así como las de paginación, ordenación o búsquedas.
 
+### Repositorios
+Los principales son:
+- CrudRepository: tiene las mayoría d elas funcionalidades CRUD.
+- PagingAndSortingRepository: ofrece mecanismos de paginación, ordenación y búsqueda.
+- JpaRepository: proporciona algunos métodos relacionados con JPA, como vaciar el contexto de persistencia y eliminar registros en un lote.
+
 Podemos trabajar con BBDD relacionales de forma sencilla con Spring Data o usar la versión específica para MongoDB.
 
 ### Definición de entidades
@@ -136,6 +143,8 @@ Usaremos las anotaciones de JPA para definir entidades o colecciones, sus atribu
 Podemos definir consultas personalizadas para las entidades de la aplicación. Para ello podemos usar la anotación @Query con JPQL o @NativeQuery y usar el lenguaje del motor de Base de Datos.
 
 Por otro lado, también podemos definir las consultas en base del nombre del método. Si lo definimos con una [signatura determinada con ellos se generará la consulta automáticamente](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation).
+
+Es importante que usando 
 
 ## Spring Security
 [Spring Security](https://spring.io/projects/spring-security) es una librería de seguridad que nos permite controlar el acceso a nuestra aplicación permitiendo mecanismos de autenticación y autorización en base a roles.

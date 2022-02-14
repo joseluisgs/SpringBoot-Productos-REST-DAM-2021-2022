@@ -103,11 +103,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // que debes darle acceso si la necesitas.
                 //.anyRequest().authenticated();
                 // O no, depende de nuestra política de seguridad
-                .anyRequest().not().authenticated()
+                .anyRequest().not().authenticated();
 
-                // De nuevo para la consola de H2 estas dos lineas
-                .and().csrf().ignoringAntMatchers("/h2-console/**")
-                .and().headers().frameOptions().sameOrigin();
+        // De nuevo para la consola de H2 estas dos lineas
+//                .and().csrf().ignoringAntMatchers("/h2-console/**")
+//                .and().headers().frameOptions().sameOrigin();
 
 
         // Será el encargado de coger el token y si es válido lo dejaremos pasar...
