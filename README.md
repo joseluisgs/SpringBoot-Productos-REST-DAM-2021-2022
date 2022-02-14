@@ -23,6 +23,7 @@ Sencillo Microservicio para API Rest en Spring (SpringBoot) realizada conjuntame
     - [IoC y DI en Spring](#ioc-y-di-en-spring)
       - [A nivel de constructor](#a-nivel-de-constructor)
       - [A nivel de setter](#a-nivel-de-setter)
+  - [DTO y Mappers](#dto-y-mappers)
   - [Fichero de propiedades](#fichero-de-propiedades)
   - [Spring Data](#spring-data)
     - [Definición de entidades](#definición-de-entidades)
@@ -32,6 +33,8 @@ Sencillo Microservicio para API Rest en Spring (SpringBoot) realizada conjuntame
     - [Autenticación](#autenticación)
     - [Autorización](#autorización)
     - [Implementación en SpringBoot](#implementación-en-springboot)
+  - [Documentación](#documentación)
+  - [Postman](#postman)
   - [Autor](#autor)
     - [Contacto](#contacto)
   - [Licencia](#licencia)
@@ -109,6 +112,11 @@ public class UserService {
   }
 }
 ```
+## DTO y Mappers
+Usaremos los DTO, como objetos de transporte y con ellos facilitar la transición entre Request y objetos del modelo, y objetos de modelo y Responses. De esta manera podemos ensamblar y desensamblar los objetos de modelo y de transporte según nuestra necesidades.
+
+Los mapeadores nos ayudarán en la misión de mapear los objetos de modelo a objetos de transporte y viceversa. Podemos usar una librería específica para ello como [ModelMapper](http://modelmapper.org/), o podemos usar un mapeador propio.
+
 ## Fichero de propiedades
 A la hora de utilizar el contenedor de Spring es una buena práctica separar la configuración de los beans, parcial o totalmente realizada en ficheros XML o clases de configuración (internamente), y los parámetros de configuración que utilizan esos beans como por ejemplo contraseñas o la ubicación de la base de datos. 
 
@@ -169,6 +177,12 @@ Podemos implementar la autenticación y autorización de Spring Security en Spri
   - Su authenticationEntryPoint será en base a jwtAuthenticationEntryPoint
   - Definiremos las políticas de acceso en base a roles si ha pasado la autenticación. Es decir, las políticas de autorización por rutas, o verbos HTTP.
   - Aplicará todo estos procesos en base a a los filtros definidos en jwtAuthorizationFilter.
+
+## Documentación
+Para documentar nuestra API REST podemos hacer uso de [Swagger](https://swagger.io/). Swagger es un conjunto de herramientas de software de código abierto para diseñar, construir, documentar, y utilizar servicios web RESTful. Además podemos usar su UI para testear nuestra API.
+
+## Postman
+Para probar nuestra API podemos usar [Postman](https://www.getpostman.com/). Con ella podemos [probar nuestra API REST](./postman/Spring-Productos-DAM.postman_collection.json) y analizar su comportamiento. Además podemos documentarla y subirla a la nube para que pueda ser probada por otros usuarios.
 
 ## Autor
 
