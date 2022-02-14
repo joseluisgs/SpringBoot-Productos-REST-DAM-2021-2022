@@ -1,12 +1,13 @@
 package es.joseluisgs.springdam.dto.productos;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 // Los DTO nos sirven entre otras cosas para filtrar información de una o varias clases, podría ser similar a las vistas
 @Getter
 @Setter
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductoDTO {
     private Long id;
     private String nombre;
