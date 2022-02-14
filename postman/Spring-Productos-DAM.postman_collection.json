@@ -232,7 +232,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:6969/rest/productos/all",
+							"raw": "http://localhost:6969/rest/productos/all?sort=nombre",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -242,6 +242,12 @@
 								"rest",
 								"productos",
 								"all"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "nombre"
+								}
 							]
 						}
 					},

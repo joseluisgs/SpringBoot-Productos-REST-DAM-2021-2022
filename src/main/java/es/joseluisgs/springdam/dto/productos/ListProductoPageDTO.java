@@ -13,11 +13,12 @@ import java.util.List;
 @Builder
 // Con el Builder me ahorro el mappers...
 public class ListProductoPageDTO {
-    private final LocalDateTime consulta = LocalDateTime.now();
+    private final String consulta = LocalDateTime.now().toString();
     private final String project = "SpringDam";
     private final String version = APIConfig.API_VERSION;
     private List<ProductoDTO> data;
     private int currentPage;
     private long totalElements;
     private int totalPages;
+    private String sort;
 }

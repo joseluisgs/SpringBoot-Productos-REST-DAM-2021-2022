@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -192,10 +193,11 @@ public class ProductosRestController {
             @RequestParam(required = false, name = "nombre") Optional<String> nombre,
             @RequestParam(required = false, name = "precio") Optional<Double> precio,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "sort") String sort
     ) {
         // Consulto en base a las páginas
-        Pageable paging = PageRequest.of(page, size);
+        Pageable paging = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<Producto> pagedResult;
         try {
             if (nombre.isPresent() && precio.isPresent()) {
@@ -215,6 +217,7 @@ public class ProductosRestController {
                     .totalPages(pagedResult.getTotalPages())
                     .totalElements(pagedResult.getTotalElements())
                     .currentPage(pagedResult.getNumber())
+                    .sort(pagedResult.getSort().toString())
                     .build();
             return ResponseEntity.ok(listProductoPageDTO);
         } catch (Exception e) {

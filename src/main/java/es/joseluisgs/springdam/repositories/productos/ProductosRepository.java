@@ -23,5 +23,4 @@ public interface ProductosRepository extends JpaRepository<Producto, Long> {
 
     Page<Producto> findByNombreContainsIgnoreCaseAndPrecioGreaterThanEqualOrderByNombreAsc(String nombre, double precio, Pageable pageable);
 
-
 }
