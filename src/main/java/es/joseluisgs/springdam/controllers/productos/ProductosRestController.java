@@ -194,7 +194,7 @@ public class ProductosRestController {
             @RequestParam(required = false, name = "precio") Optional<Double> precio,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "sort") String sort
+            @RequestParam(defaultValue = "id") String sort
     ) {
         // Consulto en base a las páginas
         Pageable paging = PageRequest.of(page, size, Sort.Direction.ASC, sort);

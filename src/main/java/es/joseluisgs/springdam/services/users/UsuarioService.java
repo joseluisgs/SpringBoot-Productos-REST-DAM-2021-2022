@@ -38,7 +38,7 @@ public class UsuarioService {
      * Nos permite crear un nuevo Usuario con rol USER
      */
     public Usuario nuevoUsuario(CreateUsuarioDTO newUser) {
-        System.out.println(passwordEncoder.encode(newUser.getPassword()));
+        // System.out.println(passwordEncoder.encode(newUser.getPassword()));
         if (newUser.getPassword().contentEquals(newUser.getPassword2())) {
             Usuario usuario = Usuario.builder()
                     .username(newUser.getUsername())

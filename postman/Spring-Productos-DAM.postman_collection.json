@@ -14,7 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:6969/rest/productos",
+							"raw": "http://localhost:6969/rest/productos/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -22,7 +22,8 @@
 							"port": "6969",
 							"path": [
 								"rest",
-								"productos"
+								"productos",
+								""
 							]
 						}
 					},
@@ -34,7 +35,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:6969/rest/productos/1",
+							"raw": "http://localhost:6969/rest/productos/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -43,7 +44,7 @@
 							"path": [
 								"rest",
 								"productos",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -55,7 +56,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:6969/rest/productos?limit=2",
+							"raw": "http://localhost:6969/rest/productos/?limit=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -63,7 +64,8 @@
 							"port": "6969",
 							"path": [
 								"rest",
-								"productos"
+								"productos",
+								""
 							],
 							"query": [
 								{
@@ -81,7 +83,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:6969/rest/productos?nombre=co",
+							"raw": "http://localhost:6969/rest/productos/?nombre=co",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -89,7 +91,8 @@
 							"port": "6969",
 							"path": [
 								"rest",
-								"productos"
+								"productos",
+								""
 							],
 							"query": [
 								{
@@ -116,7 +119,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:6969/rest/productos",
+							"raw": "http://localhost:6969/rest/productos/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -124,7 +127,8 @@
 							"port": "6969",
 							"path": [
 								"rest",
-								"productos"
+								"productos",
+								""
 							]
 						}
 					},
@@ -201,12 +205,12 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/home/link/Proyectos/Spring-Productos-DAM/postman/nuevoproducto.jpg"
+									"src": "/Users/link/Proyectos/SpringDAM/postman/nuevoproducto.jpg"
 								},
 								{
 									"key": "producto",
 									"type": "file",
-									"src": "/home/link/Proyectos/Spring-Productos-DAM/postman/nuevoproducto.json"
+									"src": "/Users/link/Proyectos/SpringDAM/postman/nuevoproducto.json"
 								}
 							]
 						},
@@ -259,7 +263,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:6969/rest/productos/all?nombre=t&precio=6&page=1&size=1",
+							"raw": "http://localhost:6969/rest/productos/all?nombre=o&precio=6&page=1&size=3&sort=precio",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -273,7 +277,7 @@
 							"query": [
 								{
 									"key": "nombre",
-									"value": "t"
+									"value": "o"
 								},
 								{
 									"key": "precio",
@@ -285,7 +289,11 @@
 								},
 								{
 									"key": "size",
-									"value": "1"
+									"value": "3"
+								},
+								{
+									"key": "sort",
+									"value": "precio"
 								}
 							]
 						}
@@ -445,31 +453,19 @@
 				},
 				{
 					"name": "GET Me",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTY0NDUxMzQzNiwiZXhwIjoxNjQ0NTk5ODM2LCJmdWxsbmFtZSI6IlVzdWFyaW8gZGUgUHJ1ZWJhIiwicm9sZXMiOiJVU0VSIn0.jObNsmH7dQ9iD8wbguERa3LX7ileRZ6r_r2BsAmF2hXSEyc91CZ7FMl0Y3rnDpN-ZQr5STKOiswI0oqInvtcEQ",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ0OTIxMzE1LCJleHAiOjE2NDUwMDc3MTUsImZ1bGxuYW1lIjoiQWRtaW4gYWRtaW4iLCJyb2xlcyI6IlVTRVIsIEFETUlOIn0.GuH34fEt1CXg5c0Bk2_Ja1dEiIgYnFWXULtvVRMpmrJU3o1mlUzl1YoHPm9ByBvPBzqN89cmB6n2sFKlGYwpbQ",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"prueba\",\n    \"avatar\": \"https://api.lorem.space/image/face?w=150&h=150\",\n    \"fullname\": \"Usuario de Prueba\",\n    \"email\": \"usuario@prueba.es\",\n    \"password\": \"123456789\",\n    \"password2\": \"123456789\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "http://localhost:6969/rest/usuarios/me",
 							"protocol": "http",
@@ -499,7 +495,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTY0NDUxMzQzNiwiZXhwIjoxNjQ0NTk5ODM2LCJmdWxsbmFtZSI6IlVzdWFyaW8gZGUgUHJ1ZWJhIiwicm9sZXMiOiJVU0VSIn0.jObNsmH7dQ9iD8wbguERa3LX7ileRZ6r_r2BsAmF2hXSEyc91CZ7FMl0Y3rnDpN-ZQr5STKOiswI0oqInvtcEQ",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ0OTIxMzE1LCJleHAiOjE2NDUwMDc3MTUsImZ1bGxuYW1lIjoiQWRtaW4gYWRtaW4iLCJyb2xlcyI6IlVTRVIsIEFETUlOIn0.GuH34fEt1CXg5c0Bk2_Ja1dEiIgYnFWXULtvVRMpmrJU3o1mlUzl1YoHPm9ByBvPBzqN89cmB6n2sFKlGYwpbQ",
 									"type": "string"
 								}
 							]
@@ -531,7 +527,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTY0NDUxMzQzNiwiZXhwIjoxNjQ0NTk5ODM2LCJmdWxsbmFtZSI6IlVzdWFyaW8gZGUgUHJ1ZWJhIiwicm9sZXMiOiJVU0VSIn0.jObNsmH7dQ9iD8wbguERa3LX7ileRZ6r_r2BsAmF2hXSEyc91CZ7FMl0Y3rnDpN-ZQr5STKOiswI0oqInvtcEQ",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjQ0OTIxMTQyLCJleHAiOjE2NDUwMDc1NDIsImZ1bGxuYW1lIjoiTWFyw61hIEzDs3BleiIsInJvbGVzIjoiVVNFUiJ9.q6FSjb-1UD3MgJl6Q9WgbDfMG2I901Qf7QNNGN1TkdaUO_MAjP3CrV7F8FC-13ZqbIZtd8yt3_qxuC2q8T-jIQ",
 									"type": "string"
 								}
 							]
@@ -581,7 +577,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTY0NDUxMzQzNiwiZXhwIjoxNjQ0NTk5ODM2LCJmdWxsbmFtZSI6IlVzdWFyaW8gZGUgUHJ1ZWJhIiwicm9sZXMiOiJVU0VSIn0.jObNsmH7dQ9iD8wbguERa3LX7ileRZ6r_r2BsAmF2hXSEyc91CZ7FMl0Y3rnDpN-ZQr5STKOiswI0oqInvtcEQ",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjQ0OTIxMTQyLCJleHAiOjE2NDUwMDc1NDIsImZ1bGxuYW1lIjoiTWFyw61hIEzDs3BleiIsInJvbGVzIjoiVVNFUiJ9.q6FSjb-1UD3MgJl6Q9WgbDfMG2I901Qf7QNNGN1TkdaUO_MAjP3CrV7F8FC-13ZqbIZtd8yt3_qxuC2q8T-jIQ",
 									"type": "string"
 								}
 							]
@@ -622,7 +618,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ0NTEzODY1LCJleHAiOjE2NDQ2MDAyNjUsImZ1bGxuYW1lIjoiQWRtaW4gYWRtaW4iLCJyb2xlcyI6IkFETUlOLCBVU0VSIn0.7tHee_032OZblSpI52TCu2gD51ZDCv5tS7lkweqWDtlrfWojuGh-nY4ct6y4XVENkl09fAyxlaA1b0zzjonlZg",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ0OTIxMzE1LCJleHAiOjE2NDUwMDc3MTUsImZ1bGxuYW1lIjoiQWRtaW4gYWRtaW4iLCJyb2xlcyI6IlVTRVIsIEFETUlOIn0.GuH34fEt1CXg5c0Bk2_Ja1dEiIgYnFWXULtvVRMpmrJU3o1mlUzl1YoHPm9ByBvPBzqN89cmB6n2sFKlGYwpbQ",
 									"type": "string"
 								}
 							]
@@ -663,7 +659,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ0NTEzODY1LCJleHAiOjE2NDQ2MDAyNjUsImZ1bGxuYW1lIjoiQWRtaW4gYWRtaW4iLCJyb2xlcyI6IkFETUlOLCBVU0VSIn0.7tHee_032OZblSpI52TCu2gD51ZDCv5tS7lkweqWDtlrfWojuGh-nY4ct6y4XVENkl09fAyxlaA1b0zzjonlZg",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ0OTIxMzE1LCJleHAiOjE2NDUwMDc3MTUsImZ1bGxuYW1lIjoiQWRtaW4gYWRtaW4iLCJyb2xlcyI6IlVTRVIsIEFETUlOIn0.GuH34fEt1CXg5c0Bk2_Ja1dEiIgYnFWXULtvVRMpmrJU3o1mlUzl1YoHPm9ByBvPBzqN89cmB6n2sFKlGYwpbQ",
 									"type": "string"
 								}
 							]

@@ -11,7 +11,6 @@ import es.joseluisgs.springdam.models.Usuario;
 import es.joseluisgs.springdam.models.UsuarioRol;
 import es.joseluisgs.springdam.services.users.UsuarioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -47,7 +46,7 @@ public class UsuarioController {
     // Petición me de datos del usuario
     // Equivalente en ponerlo en config, solo puede entrar si estamos auteticados
     // De esta forma podemos hacer las rutas espècíficas
-    @PreAuthorize("isAuthenticated()")
+    // @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
     public GetUsuarioDTO me(@AuthenticationPrincipal Usuario user) {
         return ususuarioMapper.toDTO(user);

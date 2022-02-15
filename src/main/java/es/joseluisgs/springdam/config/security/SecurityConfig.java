@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Registrarse todos y loguearse todos. De esta manera podemos permitir las consultas a todas las rutas
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/usuarios/**").permitAll()
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/usuarios/**").hasAnyRole("USER", "ADMIN")
 
                 // Permitimos el acceso a todas las rutas de /rest/productos
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/productos/**").permitAll()

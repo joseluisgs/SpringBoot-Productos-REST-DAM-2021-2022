@@ -124,15 +124,42 @@ A la hora de utilizar el contenedor de Spring es una buena práctica separar la 
 Lo habitual es definir los parámetros de configuración en ficheros de propiedades estándar de Java (.properties). Spring permite utilizar cómodamente este tipo de ficheros tal y como vamos a ver y con ello realizar la configuración de los beans sin pasar por el tedioso proceso de configuración de XML.
 
 Podemos tener distintos ficheros por ejemplo para desarrollo y producción.
+- Propiedades globales: src/main/resources/application.properties
+- Propiedades de producción: src/main/resources/application-prod.properties
+- Propiedades de desarrollo: src/main/resources/application-dev.properties
+
+Y luego desde la línea de comandos podemos cargar un perfil concreto de la siguiente manera:
+```bash
+java -jar -Dspring.profiles.active=prod demo-0.0.1-SNAPSHOT.jar
+```
 
 ## Spring Data
 Spring Data es una librería de persistencia que nos permite acceder a bases de datos relacionales de forma sencilla. Para ello podemos extender de la clase [JpaRepository](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.repositories), que es una clase de repositorio de Spring Data con más funcionalidades, como pueden ser las operaciones de consulta, inserción, actualización y eliminación, así como las de paginación, ordenación o búsquedas.
 
 ### Repositorios
 Los principales son:
-- CrudRepository: tiene las mayoría d elas funcionalidades CRUD.
+- CrudRepository: tiene las mayoría de las funcionalidades CRUD.
 - PagingAndSortingRepository: ofrece mecanismos de paginación, ordenación y búsqueda.
 - JpaRepository: proporciona algunos métodos relacionados con JPA, como vaciar el contexto de persistencia y eliminar registros en un lote.
+
+Un ejemplo de controlador que implementa filtrado, paginación y búsqueda puede ser:
+```java
+ @GetMapping("/all")
+    public ResponseEntity<?> listado(
+            // Podemos buscar por los campos que quieramos... nombre, precio... así construir consultas
+            @RequestParam(required = false, name = "nombre") Optional<String> nombre,
+            @RequestParam(required = false, name = "precio") Optional<Double> precio,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sort
+    ) {
+      ...
+      Pageable paging = PageRequest.of(page, size, Sort.Direction.ASC, sort);
+      Page<Producto> pagedResult = productosRepository.findAll(paging);
+      ...
+    }
+```
+
 
 Podemos trabajar con BBDD relacionales de forma sencilla con Spring Data o usar la versión específica para MongoDB.
 
