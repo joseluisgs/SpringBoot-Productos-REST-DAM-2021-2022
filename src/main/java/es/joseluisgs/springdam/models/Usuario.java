@@ -11,6 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
@@ -33,10 +35,18 @@ public class Usuario implements UserDetails {
     private Long id;
 
     @Column(unique = true)
+    @NotNull(message = "Username no puede ser nulo")
     private String username;
+
+    @NotNull(message = "Password no puede ser nulo")
     private String password;
+
     private String avatar;
+
+    @NotNull(message = "FullName no puede ser nulo")
     private String fullName;
+
+    @Email(regexp = ".*@.*\\..*", message = "Email debe ser un email valido")
     private String email;
 
     // Conjunto de permisos que tiene

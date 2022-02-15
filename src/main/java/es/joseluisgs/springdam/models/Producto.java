@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,9 +24,17 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull(message = "Nombre no puede ser nulo")
     private String nombre;
+
+    @NotNull(message = "Precio no puede ser nulo")
+    @Min(value = 0, message = "El precio no puede ser negativo")
     private Double precio;
+
+    @NotNull(message = "Stock no puede ser nulo")
+    @Min(value = 0, message = "El precio no puede ser negativo")
     private Integer stock;
+
     private String imagen;
     @CreatedDate
     private LocalDateTime createdAt = LocalDateTime.now();

@@ -3,6 +3,9 @@ package es.joseluisgs.springdam.controllers.files;
 import es.joseluisgs.springdam.config.APIConfig;
 import es.joseluisgs.springdam.errors.storage.StorageException;
 import es.joseluisgs.springdam.services.uploads.StorageService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,11 @@ public class FilesRestController {
 
     // Devuelve el fichero indicado por fichero y su contenido
     // Usamos el request para tener los datos de la petición
+    @ApiOperation(value = "Obtiene un fichero en base a su nombre y url", notes = "Devuelve el fichero indicado por fichero por su nombre en url")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Resource.class),
+            @ApiResponse(code = 404, message = "Not Found", response = StorageException.class),
+    })
     @GetMapping(value = "{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename, HttpServletRequest request) {
@@ -49,6 +57,11 @@ public class FilesRestController {
                 .body(file);
     }
 
+    @ApiOperation(value = "Almacena un fichero", notes = "Almacena un fichero en el servidor y devuelve su URL")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Map.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = StorageException.class),
+    })
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     // Aunque no es obligatorio, podemos indicar que se consume multipart/form-data
     // Para ficheros usamos, Resuqest part, porque lo tenemos dividido en partes

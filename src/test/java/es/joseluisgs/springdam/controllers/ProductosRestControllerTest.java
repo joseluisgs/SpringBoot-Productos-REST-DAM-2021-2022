@@ -91,10 +91,11 @@ public class ProductosRestControllerTest {
     @Test
     @Order(3)
     public void saveTest() throws Exception {
-        CreateProductoDTO createProductoDTO = new CreateProductoDTO();
-        createProductoDTO.setNombre("POST");
-        createProductoDTO.setPrecio(10.0);
-        createProductoDTO.setStock(10);
+        CreateProductoDTO createProductoDTO = CreateProductoDTO.builder()
+                .nombre("POST")
+                .precio(10.0)
+                .stock(10)
+                .build();
 
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.post("/rest/productos/")
@@ -175,10 +176,12 @@ public class ProductosRestControllerTest {
     @Test
     @Order(8)
     public void postAlternativeTest() throws Exception {
-        CreateProductoDTO createProductoDTO = new CreateProductoDTO();
-        createProductoDTO.setNombre("POST");
-        createProductoDTO.setPrecio(10.0);
-        createProductoDTO.setStock(10);
+        CreateProductoDTO createProductoDTO = CreateProductoDTO.builder()
+                .nombre("POST")
+                .precio(10.0)
+                .stock(10)
+                .build();
+
 
         byte[] json = jsonCreateProductoDTO.write(createProductoDTO).getJson().getBytes();
 
@@ -196,10 +199,11 @@ public class ProductosRestControllerTest {
     @Test
     @Order(9)
     public void putAlternativeTest() throws Exception {
-        ProductoDTO productoDTO = new ProductoDTO();
-        productoDTO.setNombre("PUT");
-        productoDTO.setPrecio(10.0);
-        productoDTO.setStock(10);
+        ProductoDTO productoDTO = ProductoDTO.builder()
+                .nombre("PUT")
+                .precio(10.0)
+                .stock(10)
+                .build();
 
         byte[] json = jsonProductoDTO.write(productoDTO).getJson().getBytes();
 

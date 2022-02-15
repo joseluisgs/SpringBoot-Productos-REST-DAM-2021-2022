@@ -1,17 +1,24 @@
 package es.joseluisgs.springdam.dto.productos;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 // Getter & setter
 public class CreateProductoDTO {
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
-    private double precio;
-    private int stock;
+
+    @Min(message = "El precio no puede ser negativo", value = 0)
+    private Double precio;
+
+    @Min(message = "El stock no puede ser negativo", value = 0)
+    private Integer stock;
+
 }

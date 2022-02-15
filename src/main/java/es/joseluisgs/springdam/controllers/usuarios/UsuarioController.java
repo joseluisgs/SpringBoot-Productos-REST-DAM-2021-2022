@@ -10,6 +10,9 @@ import es.joseluisgs.springdam.mappers.UsuarioMapper;
 import es.joseluisgs.springdam.models.Usuario;
 import es.joseluisgs.springdam.models.UsuarioRol;
 import es.joseluisgs.springdam.services.users.UsuarioService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +39,11 @@ public class UsuarioController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
 
-    // Creamos el usuario
+    @ApiOperation(value = "Crea un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario creado"),
+            @ApiResponse(code = 400, message = "Error al crear usuario")
+    })
     @PostMapping("/")
     public GetUsuarioDTO nuevoUsuario(@RequestBody CreateUsuarioDTO newUser) {
         return ususuarioMapper.toDTO(usuarioService.nuevoUsuario(newUser));
@@ -47,12 +54,22 @@ public class UsuarioController {
     // Equivalente en ponerlo en config, solo puede entrar si estamos auteticados
     // De esta forma podemos hacer las rutas espècíficas
     // @PreAuthorize("isAuthenticated()")
+    @ApiOperation(value = "Devuelve los datos del usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario devuelto"),
+            @ApiResponse(code = 401, message = "No autenticado"),
+            @ApiResponse(code = 403, message = "No autorizado")
+    })
     @GetMapping("/me")
     public GetUsuarioDTO me(@AuthenticationPrincipal Usuario user) {
         return ususuarioMapper.toDTO(user);
     }
 
-    // Metodo post para el login, todo traido de JwtAuthenticationController
+    @ApiOperation(value = "Autentica un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario autenticado y token generado"),
+            @ApiResponse(code = 400, message = "Error al autenticar usuario"),
+    })
     @PostMapping("/login")
     public JwtUserResponse login(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication =
@@ -77,7 +94,13 @@ public class UsuarioController {
 
     }
 
-    // Convertimos un usuario en un jwtUserResponseDTO
+    /**
+     * Método que convierte un usuario y un token a una respuesta de usuario
+     *
+     * @param user     Usuario
+     * @param jwtToken Token
+     * @return JwtUserResponse con el usuario y el token
+     */
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario user, String jwtToken) {
         return JwtUserResponse
                 .jwtUserResponseBuilder()

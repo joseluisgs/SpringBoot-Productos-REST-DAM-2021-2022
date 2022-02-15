@@ -3,6 +3,7 @@ package es.joseluisgs.springdam.controllers.productos;
 import es.joseluisgs.springdam.config.APIConfig;
 import es.joseluisgs.springdam.dto.productos.CreateProductoDTO;
 import es.joseluisgs.springdam.dto.productos.ListProductoPageDTO;
+import es.joseluisgs.springdam.dto.productos.ProductoDTO;
 import es.joseluisgs.springdam.errors.GeneralBadRequestException;
 import es.joseluisgs.springdam.errors.productos.ProductoBadRequestException;
 import es.joseluisgs.springdam.errors.productos.ProductoNotFoundException;
@@ -11,6 +12,9 @@ import es.joseluisgs.springdam.mappers.ProductoMapper;
 import es.joseluisgs.springdam.models.Producto;
 import es.joseluisgs.springdam.repositories.productos.ProductosRepository;
 import es.joseluisgs.springdam.services.uploads.StorageService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,8 +30,8 @@ import java.util.Optional;
 
 
 @RestController
-// Definimos la url o entrada de la API REST, este caso la raíz: localhost:8080/rest/
 @RequestMapping(APIConfig.API_PATH + "/productos")
+// Definimos la url o entrada de la API REST, este caso la raíz: localhost:8080/rest/
 public class ProductosRestController {
     private final ProductosRepository productosRepository;
     private final StorageService storageService;
@@ -35,6 +39,7 @@ public class ProductosRestController {
 
     // Inyección de dependencias por constructor
     // Es el método recomendado con el setter y no usando en el campo
+    // Podríamos usar Lombok para inyectar las dependencias
     // https://blog.marcnuri.com/inyeccion-de-campos-desaconsejada-field-injection-not-recommended-spring-ioc
     @Autowired
     public ProductosRestController(ProductosRepository productosRepository, StorageService storageService, ProductoMapper productoMapper) {
@@ -43,19 +48,27 @@ public class ProductosRestController {
         this.productoMapper = productoMapper;
     }
 
-    @CrossOrigin(origins = "http://localhost:6969") //
+    // @CrossOrigin(origins = "http://localhost:6969") //
     // Indicamos sobre que puerto u orignes dejamos que actue (navegador) En nuestro caso no habría problemas
     // Pero es bueno tenerlo en cuenta si tenemos en otro serviror una app en angular, vue android o similar
     // Pero es inviable para API consumida por muchos terceros. // Debes probar con un cliente desde ese puerto
     // Mejor hacer un filtro, ver MyConfig.java
 
-    // test
+    @ApiOperation(value = "test", notes = "Mensaje de bienvenida")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = String.class)
+    })
     @GetMapping("/test")
     public String test() {
         return "Hola REST 2DAM. Todo OK";
     }
 
-    // Obtener todos los productos
+    @ApiOperation(value = "Obtener todos los productos", notes = "Obtiene todos los productos")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ProductoDTO.class, responseContainer = "List"),
+            @ApiResponse(code = 404, message = "Not Found", response = ProductosNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
     @GetMapping("/")
     public ResponseEntity<?> findAll(@RequestParam(name = "limit") Optional<String> limit,
                                      @RequestParam(name = "nombre") Optional<String> nombre) {
@@ -86,7 +99,11 @@ public class ProductosRestController {
     }
 
 
-    // Obtener un producto por id
+    @ApiOperation(value = "Obtener un producto por id", notes = "Obtiene un producto por id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ProductoDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ProductosNotFoundException.class)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Producto producto = productosRepository.findById(id).orElse(null);
@@ -97,7 +114,11 @@ public class ProductosRestController {
         }
     }
 
-    // Insertar producto
+    @ApiOperation(value = "Crear un producto", notes = "Crea un producto")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Created", response = ProductoDTO.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
     @PostMapping("/")
     public ResponseEntity<?> save(@RequestBody CreateProductoDTO productoDTO) {
         try {
@@ -112,7 +133,12 @@ public class ProductosRestController {
     }
 
 
-    // Actualiza producto por id. Podría ser un DTO si quisieramos
+    @ApiOperation(value = "Actualizar un producto", notes = "Actualiza un producto por id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ProductoDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ProductosNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto) {
         try {
@@ -134,7 +160,12 @@ public class ProductosRestController {
         }
     }
 
-    // Borrar producto por id
+    @ApiOperation(value = "Eliminar un producto", notes = "Elimina un producto dado su id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ProductoDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ProductosNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
@@ -150,7 +181,15 @@ public class ProductosRestController {
         }
     }
 
-    // Comprobar los campos obligatorios
+    /**
+     * Método para comprobar que los datos del producto son correctos
+     *
+     * @param producto Producto a comprobar
+     *                 - Nombre no puede estar vacío
+     *                 - Precio no puede ser negativo
+     *                 - Stock no puede ser negativo
+     * @throws ProductoBadRequestException Si los datos no son correctos
+     */
     private void checkProductoData(Producto producto) {
         if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
             throw new ProductoBadRequestException("Nombre", "El nombre es obligatorio");
@@ -163,6 +202,11 @@ public class ProductosRestController {
         }
     }
 
+    @ApiOperation(value = "Crea un producto con imagen", notes = "Crea un producto con imagen")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ProductoDTO.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class),
+    })
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> nuevoProducto(
             @RequestPart("producto") CreateProductoDTO productoDTO,
@@ -186,7 +230,11 @@ public class ProductosRestController {
 
     }
 
-    // Obtener todos los productos
+    @ApiOperation(value = "Obtiene una lista de productos", notes = "Obtiene una lista de productos paginada, filtrada y ordenada")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ListProductoPageDTO.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
     @GetMapping("/all")
     public ResponseEntity<?> listado(
             // Podemos buscar por los campos que quieramos... nombre, precio... así construir consultas
@@ -224,6 +272,4 @@ public class ProductosRestController {
             throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
         }
     }
-
-
 }

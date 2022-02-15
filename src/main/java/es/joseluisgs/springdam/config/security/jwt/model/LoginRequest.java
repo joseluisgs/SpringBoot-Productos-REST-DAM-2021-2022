@@ -12,9 +12,10 @@ import javax.validation.constraints.NotBlank;
 
 // Para el login
 public class LoginRequest {
-    @NotBlank // No envíen datos en blanco. Usamos la api de validación!!! Ideal para otros DTO de Entrada
+    @NotBlank(message = "El campo username no puede estar vacío")
     private String username;
-    @NotBlank
+    
+    @NotBlank(message = "El campo password no puede estar vacío")
     private String password;
 
 }
