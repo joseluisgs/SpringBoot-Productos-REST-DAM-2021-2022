@@ -25,8 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,13 +68,15 @@ public class ProductosRestControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         List<ProductoDTO> myObjects = Arrays.asList(mapper.readValue(response.getContentAsString(), ProductoDTO[].class));
 
-        assertEquals(response.getStatus(), HttpStatus.OK.value());
-        assertTrue(response.getContentAsString().contains("\"id\":" + producto.getId()));
-        assertTrue(myObjects.size() > 0);
-        assertEquals(myObjects.get(0).getId(), producto.getId());
-        assertEquals(myObjects.get(0).getNombre(), producto.getNombre());
-        assertEquals(myObjects.get(0).getPrecio(), producto.getPrecio());
-        assertEquals(myObjects.get(0).getStock(), producto.getStock());
+        assertAll(
+                () -> assertEquals(response.getStatus(), HttpStatus.OK.value()),
+                () -> assertTrue(response.getContentAsString().contains("\"id\":" + producto.getId())),
+                () -> assertTrue(myObjects.size() > 0),
+                () -> assertEquals(myObjects.get(0).getId(), producto.getId()),
+                () -> assertEquals(myObjects.get(0).getNombre(), producto.getNombre()),
+                () -> assertEquals(myObjects.get(0).getPrecio(), producto.getPrecio()),
+                () -> assertEquals(myObjects.get(0).getStock(), producto.getStock())
+        );
     }
 
     @Test
@@ -90,12 +91,12 @@ public class ProductosRestControllerTest {
         // then
         var res = jsonProductoDTO.parseObject(response.getContentAsString());
 
-        assertEquals(response.getStatus(), HttpStatus.OK.value());
-        assertEquals(res.getId(), producto.getId());
-        assertEquals(res.getNombre(), producto.getNombre());
-        assertEquals(res.getPrecio(), producto.getPrecio());
-        assertEquals(res.getStock(), producto.getStock());
-
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatus()),
+                () -> assertEquals(res.getNombre(), producto.getNombre()),
+                () -> assertEquals(res.getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.getStock(), producto.getStock())
+        );
     }
 
     @Test
@@ -114,14 +115,16 @@ public class ProductosRestControllerTest {
                 .accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
 
         var res = jsonProductoDTO.parseObject(response.getContentAsString());
-        assertEquals(response.getStatus(), HttpStatus.OK.value());
-        assertEquals(res.getNombre(), createProductoDTO.getNombre());
-        assertEquals(res.getPrecio(), createProductoDTO.getPrecio());
-        assertEquals(res.getStock(), createProductoDTO.getStock());
-        assertEquals(res.getNombre(), producto.getNombre());
-        assertEquals(res.getPrecio(), producto.getPrecio());
-        assertEquals(res.getStock(), producto.getStock());
 
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatus()),
+                () -> assertEquals(res.getNombre(), producto.getNombre()),
+                () -> assertEquals(res.getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.getStock(), producto.getStock()),
+                () -> assertEquals(res.getNombre(), createProductoDTO.getNombre()),
+                () -> assertEquals(res.getPrecio(), createProductoDTO.getPrecio()),
+                () -> assertEquals(res.getStock(), createProductoDTO.getStock())
+        );
     }
 
     @Test
@@ -139,14 +142,16 @@ public class ProductosRestControllerTest {
                 .accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
 
         var res = jsonProductoDTO.parseObject(response.getContentAsString());
-        assertEquals(response.getStatus(), HttpStatus.OK.value());
-        assertEquals(res.getNombre(), productoDTO.getNombre());
-        assertEquals(res.getPrecio(), productoDTO.getPrecio());
-        assertEquals(res.getStock(), productoDTO.getStock());
-        assertEquals(res.getNombre(), producto.getNombre());
-        assertEquals(res.getPrecio(), producto.getPrecio());
-        assertEquals(res.getStock(), producto.getStock());
 
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatus()),
+                () -> assertEquals(res.getNombre(), producto.getNombre()),
+                () -> assertEquals(res.getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.getStock(), producto.getStock()),
+                () -> assertEquals(res.getNombre(), productoDTO.getNombre()),
+                () -> assertEquals(res.getPrecio(), productoDTO.getPrecio()),
+                () -> assertEquals(res.getStock(), productoDTO.getStock())
+        );
     }
 
     @Test
@@ -159,11 +164,12 @@ public class ProductosRestControllerTest {
 
         var res = jsonProductoDTO.parseObject(response.getContentAsString());
 
-        assertEquals(response.getStatus(), HttpStatus.OK.value());
-        assertEquals(res.getNombre(), producto.getNombre());
-        assertEquals(res.getPrecio(), producto.getPrecio());
-        assertEquals(res.getStock(), producto.getStock());
-
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatus()),
+                () -> assertEquals(res.getNombre(), producto.getNombre()),
+                () -> assertEquals(res.getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.getStock(), producto.getStock())
+        );
     }
 
     @Test

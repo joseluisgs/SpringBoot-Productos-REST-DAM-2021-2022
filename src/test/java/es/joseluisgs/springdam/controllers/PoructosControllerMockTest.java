@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -68,11 +69,13 @@ public class PoructosControllerMockTest {
                 java.util.Optional.empty(), java.util.Optional.empty()
         );
         var res = response.getBody();
-        assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
-        assertEquals(res.get(0).getNombre(), producto.getNombre());
-        assertEquals(res.get(0).getPrecio(), producto.getPrecio());
-        assertEquals(res.get(0).getStock(), producto.getStock());
 
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatusCode().value()),
+                () -> assertEquals(res.get(0).getNombre(), producto.getNombre()),
+                () -> assertEquals(res.get(0).getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.get(0).getStock(), producto.getStock())
+        );
     }
 
     @Test
@@ -91,10 +94,13 @@ public class PoructosControllerMockTest {
 
         var response = productosController.findById(1L);
         var res = response.getBody();
-        assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
-        assertEquals(res.getNombre(), producto.getNombre());
-        assertEquals(res.getPrecio(), producto.getPrecio());
-        assertEquals(res.getStock(), producto.getStock());
+
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatusCode().value()),
+                () -> assertEquals(res.getNombre(), producto.getNombre()),
+                () -> assertEquals(res.getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.getStock(), producto.getStock())
+        );
     }
 
     @Test
@@ -122,10 +128,13 @@ public class PoructosControllerMockTest {
 
         var response = productosController.save(createDto);
         var res = response.getBody();
-        assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
-        assertEquals(res.getNombre(), producto.getNombre());
-        assertEquals(res.getPrecio(), producto.getPrecio());
-        assertEquals(res.getStock(), producto.getStock());
+
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatusCode().value()),
+                () -> assertEquals(res.getNombre(), producto.getNombre()),
+                () -> assertEquals(res.getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.getStock(), producto.getStock())
+        );
     }
 
     @Test
@@ -147,10 +156,13 @@ public class PoructosControllerMockTest {
 
         var response = productosController.update(1L, producto);
         var res = response.getBody();
-        assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
-        assertEquals(res.getNombre(), producto.getNombre());
-        assertEquals(res.getPrecio(), producto.getPrecio());
-        assertEquals(res.getStock(), producto.getStock());
+
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatusCode().value()),
+                () -> assertEquals(res.getNombre(), producto.getNombre()),
+                () -> assertEquals(res.getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.getStock(), producto.getStock())
+        );
     }
 
     @Test
@@ -169,9 +181,12 @@ public class PoructosControllerMockTest {
 
         var response = productosController.delete(1L);
         var res = response.getBody();
-        assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
-        assertEquals(res.getNombre(), producto.getNombre());
-        assertEquals(res.getPrecio(), producto.getPrecio());
-        assertEquals(res.getStock(), producto.getStock());
+
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatusCode().value()),
+                () -> assertEquals(res.getNombre(), producto.getNombre()),
+                () -> assertEquals(res.getPrecio(), producto.getPrecio()),
+                () -> assertEquals(res.getStock(), producto.getStock())
+        );
     }
 }

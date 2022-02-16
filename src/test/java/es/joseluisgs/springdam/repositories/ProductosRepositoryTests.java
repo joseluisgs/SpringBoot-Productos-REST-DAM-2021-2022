@@ -37,10 +37,12 @@ public class ProductosRepositoryTests {
     public void save() {
         Producto res = productosRepository.save(producto);
 
-        assertNotNull(res);
-        assertEquals(producto.getNombre(), res.getNombre());
-        assertEquals(producto.getPrecio(), res.getPrecio());
-        assertEquals(producto.getStock(), res.getStock());
+        assertAll(
+                () -> assertNotNull(res),
+                () -> assertEquals(producto.getNombre(), res.getNombre()),
+                () -> assertEquals(producto.getPrecio(), res.getPrecio()),
+                () -> assertEquals(producto.getStock(), res.getStock())
+        );
     }
 
     @Test
@@ -53,29 +55,31 @@ public class ProductosRepositoryTests {
     @Test
     @Order(3)
     public void getProductoById() {
-        // Ya sé que salva el producto, por el test 1
-        Producto res = productosRepository.save(producto);
+        var prod = productosRepository.save(producto);
+        var res = productosRepository.findById(prod.getId()).get();
 
-        res = productosRepository.findById(res.getId()).get();
-
-        assertNotNull(res);
-        assertEquals(producto.getNombre(), res.getNombre());
-        assertEquals(producto.getPrecio(), res.getPrecio());
-        assertEquals(producto.getStock(), res.getStock());
+        assertAll(
+                () -> assertNotNull(res),
+                () -> assertEquals(producto.getNombre(), res.getNombre()),
+                () -> assertEquals(producto.getPrecio(), res.getPrecio()),
+                () -> assertEquals(producto.getStock(), res.getStock())
+        );
     }
 
     @Test
     @Order(4)
     public void updateProducto() {
-        Producto res = productosRepository.save(producto);
-        res = productosRepository.findById(res.getId()).get();
-        res.setNombre("Producto de prueba modificado");
+        var prod = productosRepository.save(producto);
+        prod = productosRepository.findById(prod.getId()).get();
+        prod.setNombre("Producto de prueba modificado");
 
-        res = productosRepository.save(res);
-        assertNotNull(res);
-        assertEquals("Producto de prueba modificado", res.getNombre());
-        assertEquals(producto.getPrecio(), res.getPrecio());
-        assertEquals(producto.getStock(), res.getStock());
+        var res = productosRepository.save(prod);
+        assertAll(
+                () -> assertNotNull(res),
+                () -> assertEquals("Producto de prueba modificado", res.getNombre()),
+                () -> assertEquals(producto.getPrecio(), res.getPrecio()),
+                () -> assertEquals(producto.getStock(), res.getStock())
+        );
     }
 
     @Test
@@ -85,6 +89,7 @@ public class ProductosRepositoryTests {
         res = productosRepository.findById(res.getId()).get();
 
         productosRepository.delete(res);
+        
         assertNull(productosRepository.findById(res.getId()).orElse(null));
 
     }
