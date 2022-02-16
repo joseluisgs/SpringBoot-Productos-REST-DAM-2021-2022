@@ -10,6 +10,8 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // Test unitario del repositorio mockeado
@@ -74,11 +76,11 @@ public class ProductosRepositoryMockTests {
     public void findAll() {
         // Arrange
         Mockito.when(productosRepository.findAll())
-                .thenReturn(java.util.Arrays.asList(producto));
+                .thenReturn(List.of(producto));
         // Act
         java.util.List<Producto> res = productosRepository.findAll();
         // Assert
-        assertEquals(java.util.Arrays.asList(producto), res);
+        assertEquals(List.of(producto), res);
         assertEquals(producto.getId(), res.get(0).getId());
         assertEquals(producto.getNombre(), res.get(0).getNombre());
         assertEquals(producto.getPrecio(), res.get(0).getPrecio());

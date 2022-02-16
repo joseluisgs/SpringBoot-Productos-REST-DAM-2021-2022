@@ -15,10 +15,10 @@ public class CreateProductoDTO {
     @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
 
-    @Min(message = "El precio no puede ser negativo", value = 0)
+    @Min(message = "El precio no puede ser negativo", value = 10)
     private Double precio;
 
-    @Min(message = "El stock no puede ser negativo", value = 0)
+    @Min(message = "El stock no puede ser negativo", value = 10)
     private Integer stock;
 
 }

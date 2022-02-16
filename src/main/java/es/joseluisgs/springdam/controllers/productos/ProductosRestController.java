@@ -71,8 +71,8 @@ public class ProductosRestController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<List<ProductoDTO>> findAll(@RequestParam(name = "limit") Optional<String> limit,
-                                                     @RequestParam(name = "nombre") Optional<String> nombre) {
+    public ResponseEntity<List<ProductoDTO>> findAll(@RequestParam(required = false, name = "limit") Optional<String> limit,
+                                                     @RequestParam(required = false, name = "nombre") Optional<String> nombre) {
         List<Producto> productos = null;
         try {
             if (nombre.isPresent()) {
@@ -106,7 +106,7 @@ public class ProductosRestController {
             @ApiResponse(code = 404, message = "Not Found", response = ProductosNotFoundException.class)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductoDTO> findById(@PathVariable Long id) {
         Producto producto = productosRepository.findById(id).orElse(null);
         if (producto == null) {
             throw new ProductoNotFoundException(id);
@@ -121,7 +121,7 @@ public class ProductosRestController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @PostMapping("/")
-    public ResponseEntity<?> save(@RequestBody CreateProductoDTO productoDTO) {
+    public ResponseEntity<ProductoDTO> save(@RequestBody CreateProductoDTO productoDTO) {
         try {
             Producto producto = productoMapper.fromDTO(productoDTO);
             checkProductoData(producto);
@@ -129,7 +129,7 @@ public class ProductosRestController {
             return ResponseEntity.ok(productoMapper.toDTO(productoInsertado));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new GeneralBadRequestException("Insertar", "Error al insertar el producto. Campos incorrectos");
+            throw new GeneralBadRequestException("Insertar", "Error al insertar el producto. Campos incorrectos " + e.getMessage());
         }
     }
 
@@ -141,7 +141,7 @@ public class ProductosRestController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto) {
+    public ResponseEntity<ProductoDTO> update(@PathVariable Long id, @RequestBody Producto producto) {
         try {
             Producto productoActualizado = productosRepository.findById(id).orElse(null);
             if (productoActualizado == null) {
@@ -168,7 +168,7 @@ public class ProductosRestController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<ProductoDTO> delete(@PathVariable Long id) {
         try {
             Producto producto = productosRepository.findById(id).orElse(null);
             if (producto == null) {
