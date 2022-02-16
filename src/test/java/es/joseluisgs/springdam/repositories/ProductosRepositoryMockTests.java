@@ -12,6 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// Test unitario del repositorio mockeado
+
 @SpringBootTest
 // De esta manera levanto la base de datos de prueba en cada test
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
