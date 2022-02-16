@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 public class LoginRequest {
     @NotBlank(message = "El campo username no puede estar vacío")
     private String username;
-    
+
     @NotBlank(message = "El campo password no puede estar vacío")
     private String password;
 
