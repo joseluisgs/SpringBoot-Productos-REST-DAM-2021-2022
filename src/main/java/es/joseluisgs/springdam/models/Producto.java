@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -24,7 +25,7 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull(message = "Nombre no puede ser nulo")
+    @NotBlank(message = "Nombre no puede ser vacío")
     private String nombre;
 
     @NotNull(message = "Precio no puede ser nulo")

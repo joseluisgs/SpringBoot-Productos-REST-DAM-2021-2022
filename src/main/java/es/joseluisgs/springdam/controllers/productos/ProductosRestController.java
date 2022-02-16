@@ -15,6 +15,7 @@ import es.joseluisgs.springdam.services.uploads.StorageService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -70,8 +71,8 @@ public class ProductosRestController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<?> findAll(@RequestParam(name = "limit") Optional<String> limit,
-                                     @RequestParam(name = "nombre") Optional<String> nombre) {
+    public ResponseEntity<List<ProductoDTO>> findAll(@RequestParam(name = "limit") Optional<String> limit,
+                                                     @RequestParam(name = "nombre") Optional<String> nombre) {
         List<Producto> productos = null;
         try {
             if (nombre.isPresent()) {
@@ -230,10 +231,11 @@ public class ProductosRestController {
 
     }
 
+    @Operation(summary = "Obtiene la lista de productos existentes", description = "Obtiene la lista de productos existentes")
     @ApiOperation(value = "Obtiene una lista de productos", notes = "Obtiene una lista de productos paginada, filtrada y ordenada")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = ListProductoPageDTO.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+            @ApiResponse(code = 200, message = "OK: Lista de productos", response = ListProductoPageDTO.class),
+            @ApiResponse(code = 400, message = "Bad Request: Lista no encontrada", response = GeneralBadRequestException.class)
     })
     @GetMapping("/all")
     public ResponseEntity<?> listado(

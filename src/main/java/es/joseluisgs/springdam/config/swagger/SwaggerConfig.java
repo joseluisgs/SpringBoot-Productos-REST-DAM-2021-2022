@@ -36,7 +36,7 @@ public class SwaggerConfig {
         return new ApiInfo(
                 "API REST Spring Boot 2DAM 2021/2022",
                 "API de ejemplo del curso Desarrollo de un API REST con Spring Boot. 2020/2021",
-                "1.0",
+                "1.1",
                 "Terms of Service",
                 new Contact("Jose Luis Gonzalez", "https://github.com/joseluisgs",
                         "joseluis.gonzalez@iesluisvives.org"),

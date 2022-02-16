@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -35,7 +36,7 @@ public class Usuario implements UserDetails {
     private Long id;
 
     @Column(unique = true)
-    @NotNull(message = "Username no puede ser nulo")
+    @NotBlank(message = "Username no puede estar vacío")
     private String username;
 
     @NotNull(message = "Password no puede ser nulo")
