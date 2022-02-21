@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "547547c7-42ad-4690-93ff-0927bc260b0a",
 		"name": "Spring-Productos-DAM",
+		"description": "# Spring-Productos-DAM\n\nSencillo Microservicio para API Rest en Spring (SpringBoot) realizada conjuntamente con 2 DAM. Curso 2021/2022\n\n[![Spring](https://img.shields.io/badge/Code-Spring%20Java-green)](https://spring.io)\n[![LISENCE](https://img.shields.io/badge/Lisence-MIT-green)]()\n![GitHub](https://img.shields.io/github/last-commit/joseluisgs/Spring-Productos-DAM)\n\n## API REST\n\nSencilla Api REST con Spring Boot realizada con el alumnado para el curso de 2020/2021.\nCon ella pondremos a prueba todo lo que hemos aprendido hasta el momento en Acceso a Datos y Programación de Servicios y Procesos.\n\nEn este proyecto realizaremos una API REST con Spring Boot. Es decir, un servicio web que accede a datos de una base de datos para gestionar un recurso, donde a su vez, podemos realizar operaciones CRUD (Create, Read, Update, Delete) implementando mecanismos autenticación y autorización.\n\n\n## Autor\n\nCodificado con :sparkling_heart: por [José Luis González Sánchez](https://twitter.com/joseluisgonsan)\n\n[![Twitter](https://img.shields.io/twitter/follow/joseluisgonsan?style=social)](https://twitter.com/joseluisgonsan)\n[![GitHub](https://img.shields.io/github/followers/joseluisgs?style=social)](https://github.com/joseluisgs)\n\n### Contacto\n\n<p>\n  Cualquier cosa que necesites házmelo saber por si puedo ayudarte 💬.\n</p>\n<p>\n    <a href=\"https://twitter.com/joseluisgonsan\" target=\"_blank\">\n        <img src=\"https://i.imgur.com/U4Uiaef.png\" \n    height=\"30\">\n    </a> &nbsp;&nbsp;\n    <a href=\"https://github.com/joseluisgs\" target=\"_blank\">\n        <img src=\"https://distreau.com/github.svg\" \n    height=\"30\">\n    </a> &nbsp;&nbsp;\n    <a href=\"https://www.linkedin.com/in/joseluisgonsan\" target=\"_blank\">\n        <img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png\" \n    height=\"30\">\n    </a>  &nbsp;&nbsp;\n    <a href=\"https://joseluisgs.github.io/\" target=\"_blank\">\n        <img src=\"https://joseluisgs.github.io/favicon.png\" \n    height=\"30\">\n    </a>\n</p>\n\n## Licencia\n\nEste proyecto está licenciado bajo licencia **MIT**, si desea saber más, visite el fichero [LICENSE](./LICENSE) para su\nuso docente y educativo.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -687,6 +688,198 @@
 								"auth",
 								"productos",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Heroku",
+			"item": [
+				{
+					"name": "GET ALL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://springboot-productos-dam.herokuapp.com/rest/productos/",
+							"protocol": "https",
+							"host": [
+								"springboot-productos-dam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"rest",
+								"productos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"POST\",\n    \"precio\": 9.5,\n    \"stock\": 25\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://springboot-productos-dam.herokuapp.com/rest/productos/",
+							"protocol": "https",
+							"host": [
+								"springboot-productos-dam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"rest",
+								"productos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1999,\n    \"nombre\": \"PUT\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://springboot-productos-dam.herokuapp.com/rest/productos/1",
+							"protocol": "https",
+							"host": [
+								"springboot-productos-dam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"rest",
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1999,\n    \"nombre\": \"PUT\",\n    \"precio\": 9.5,\n    \"stock\": 25,\n    \"createdAt\": \"2022-01-27T17:10:35.449307\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://springboot-productos-dam.herokuapp.com/rest/productos/1",
+							"protocol": "https",
+							"host": [
+								"springboot-productos-dam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"rest",
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL One DTO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://springboot-productos-dam.herokuapp.com/rest/productos/all?sort=nombre",
+							"protocol": "https",
+							"host": [
+								"springboot-productos-dam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"rest",
+								"productos",
+								"all"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "nombre"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL One DTO Page Filter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://springboot-productos-dam.herokuapp.com/rest/productos/all?nombre=o&precio=6&page=1&size=3&sort=precio",
+							"protocol": "https",
+							"host": [
+								"springboot-productos-dam",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"rest",
+								"productos",
+								"all"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "o"
+								},
+								{
+									"key": "precio",
+									"value": "6"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "sort",
+									"value": "precio"
+								}
 							]
 						}
 					},
