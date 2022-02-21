@@ -266,7 +266,14 @@ Desplegamos la apliacación con el siguiente comando:
 ```bash
 git push heroku master
 ```
-
+El tiempo de despliegue tarda un poco, una vez terminada puedes ver la consola remota con:
+```bash
+heroku open
+```
+Puedes consultar los logs con: 
+```bash
+heroku logs --tail
+```
 
 ## Autor
 
