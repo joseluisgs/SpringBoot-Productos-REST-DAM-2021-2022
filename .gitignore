@@ -33,3 +33,4 @@ build/
 .vscode/
 upload-dir/
 upload-dir/
+out/
