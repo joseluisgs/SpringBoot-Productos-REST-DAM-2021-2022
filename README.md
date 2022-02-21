@@ -35,11 +35,10 @@ Sencillo Microservicio para API Rest en Spring (SpringBoot) realizada conjuntame
     - [Autorización](#autorización)
     - [Implementación en SpringBoot](#implementación-en-springboot)
   - [Documentación](#documentación)
-  - [Postman](#postman)
-  - [Docker](#docker)
-    - [Usando Dockefile](#usando-dockefile)
-    - [Usando Docker Compose](#usando-docker-compose)
-  - [Heroku](#heroku)
+  - [Pruebas](#pruebas)
+    - [Junit y Mockito](#junit-y-mockito)
+      - [Usando Docker Compose](#usando-docker-compose)
+    - [Heroku](#heroku)
   - [Autor](#autor)
     - [Contacto](#contacto)
   - [Licencia](#licencia)
@@ -221,13 +220,35 @@ Podemos implementar la autenticación y autorización de Spring Security en Spri
 ## Documentación
 Para documentar nuestra API REST podemos hacer uso de [Swagger](https://swagger.io/). Swagger es un conjunto de herramientas de software de código abierto para diseñar, construir, documentar, y utilizar servicios web RESTful. Además podemos usar su UI para testear nuestra API.
 
-## Postman
+## Pruebas
+### Junit y Mockito
+Podemos probar nuestra API Rest como cualquier aplicación Java usando las librerías JUnit y Mockito, que vienen incluidas en las dependencias de pruebas de Spring. 
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+´´´
+
+De esta manera podemos realizar test unitarios y de integración sobre repositorios, servicios y controladores. Podemos hacer uso de las anotaciones @Mock, @MockBean e @InjectMocks según nuestros intereses para facilitar el proceso de configurar nuestros mocks.
+
+### MockMvc
+Con MockMvc podemos mockear desde la propia aplicación las llamadas a la propia API y con ello analizar el funcionamiento de los controladores a nivel de integración con el resto del sistema. Esto nos hace que tengamos un cliente rest que interactúa con nuestro servicio, realizando las peticiones (resquest) oportunas para obtener los resultados de dicha petición al servicio (response).
+
+Posteriormente, podemos analizar usado asserciones si los resultados obtenidos (una vez procesado el JSON de respuesta), son los resultados esperados, como siempre lo haríamos.
+
+Alternativamente, podemos usar lso expect de esta librerías para realizar los test analizando en JSON directamente. 
+
+### Postman
 Para probar nuestra API podemos usar [Postman](https://www.getpostman.com/). Con ella podemos [probar nuestra API REST](./postman/Spring-Productos-DAM.postman_collection.json) y analizar su comportamiento. Además podemos documentarla y subirla a la nube para que pueda ser probada por otros usuarios.
 
-## Docker
+## Despliegue
+
+### Docker
 Para facilitar el despliegue de nuestra API podemos usar [Docker](https://docker.io/). Podemos crear un contenedor de nuestra API y ejecutarla en el puerto por defecto de nuestra API. Además, podemos subir nuestra API a la nube para que pueda ser usada por otros usuarios usando Docker Hub.
 
-### Usando Dockefile
+#### Usando Dockefile
 Podemos usar el [Dockerfile](https://docs.docker.com/engine/reference/builder/) para crear nuestra API. Puedes consultar el [Dockerfile](Dockerfile).
 Para generar y ejecutar el contenedor, usamos: 
 ```bash
@@ -238,7 +259,7 @@ Para subirla a Docker Hub, usamos:
 ```bash
 docker push joseluisgs/springboot-productos-dam:latest
 ```
-### Usando Docker Compose
+#### Usando Docker Compose
 Podemos usar [Docker Compose](https://docs.docker.com/compose/) para desplegar nuestra API. Puedes consultar el fichero [docker-compose.yml](docker-compose.yml).
 Para levantar lso contenedores y construir las imágenes
 ```bash
@@ -249,8 +270,12 @@ Para parar nuestros contenedores
 docker-compose down
 ```
 
-## Heroku
+### Heroku
 Para subir y distribuir nuestra API en la nube, podemos usar el servicio de Heroku [Heroku](https://www.heroku.com/). Con ello podemos desplegar a partir de los cambios en nuestro repositorio de manera continua. Para ello, necesitamos una cuenta de Heroku y una cuenta de Github. Lo primero es instalar y configurar el [CLI de Heroku](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli). Puedes leer toda la información [aquí](https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku). También puedes [automatizar el proceso con Maven](https://www.callicoder.com/deploy-host-spring-boot-apps-on-heroku/).
+
+Debemos tener en cuenta que el entorno de ejecución de Heroku es Java 8. Si nuestro proyecto es Java 11 (<java.version>11</java.version>) debes cambiarlo a 8, o, crear en la raíz de tu proyecto un fichero llamado [system.properties](system.properties), con la cadena java.runtime.version=11.
+
+Por otro lado, Heroku expone el puerto 8080 por defecto. Si quieres usar otro puerto, debes indicarlo en la plataforma como variable de entorno, o usar este. Puedes consultar la documentación de Heroku al respecto.
 
 Antes de publicar en Heroku, debemos tener en cuenta que nuestro repositorio debe estar actualizado en el último commit. Para ello, debemos ejecutar el siguiente comando:
 ```bash
