@@ -305,6 +305,10 @@ Puedes consultar los logs con:
 heroku logs --tail
 ```
 
+Podremos consultarla una vez deplegada en: https://springboot-productos-dam.herokuapp.com/rest/productos/
+
+Como es de suponer, el servicio de Heroku al ser gratis, tiene algunas limitaciones, como el almacenamiento efímero de ficheros persistente, o el uso de base de datos, la cual podemos usar una versión limitada y gratis de PostgreSQL que ofrecen. Si no, debemos usar una alternativa de pago, o usar para el almacenamiento de ficheros otras opciones existentes y usar otras bases de datos en la nube, como MongoDB Atlas, o alternativas globales como Amazon Web Services S3 o Google Firebase.
+
 ## Autor
 
 Codificado con :sparkling_heart: por [José Luis González Sánchez](https://twitter.com/joseluisgonsan)
