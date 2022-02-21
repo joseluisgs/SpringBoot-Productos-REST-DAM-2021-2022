@@ -39,6 +39,7 @@ Sencillo Microservicio para API Rest en Spring (SpringBoot) realizada conjuntame
   - [Docker](#docker)
     - [Usando Dockefile](#usando-dockefile)
     - [Usando Docker Compose](#usando-docker-compose)
+  - [Heroku](#heroku)
   - [Autor](#autor)
     - [Contacto](#contacto)
   - [Licencia](#licencia)
@@ -247,6 +248,25 @@ Para parar nuestros contenedores
 ```bash
 docker-compose down
 ```
+
+## Heroku
+Para subir y distribuir nuestra API en la nube, podemos usar el servicio de Heroku [Heroku](https://www.heroku.com/). Con ello podemos desplegar a partir de los cambios en nuestro repositorio de manera continua. Para ello, necesitamos una cuenta de Heroku y una cuenta de Github. Lo primero es instalar y configurar el [CLI de Heroku](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli). Puedes leer toda la información [aquí](https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku). También puedes [automatizar el proceso con Maven](https://www.callicoder.com/deploy-host-spring-boot-apps-on-heroku/).
+
+Antes de publicar en Heroku, debemos tener en cuenta que nuestro repositorio debe estar actualizado en el último commit. Para ello, debemos ejecutar el siguiente comando:
+```bash
+git add .
+git commit -m "heroku init"
+```
+
+Ahora creamos nuestra aplicación Heroku o [con su web](https://dashboard.heroku.com/new-app), o usando el CLI instalado con el siguiente comando:
+```bash
+heroku create springboot-productos-dam
+```
+Desplegamos la apliacación con el siguiente comando:
+```bash
+git push heroku master
+```
+
 
 ## Autor
 
