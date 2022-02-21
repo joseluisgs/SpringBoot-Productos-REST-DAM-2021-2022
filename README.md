@@ -36,6 +36,9 @@ Sencillo Microservicio para API Rest en Spring (SpringBoot) realizada conjuntame
     - [Implementación en SpringBoot](#implementación-en-springboot)
   - [Documentación](#documentación)
   - [Postman](#postman)
+  - [Docker](#docker)
+    - [Usando Dockefile](#usando-dockefile)
+    - [Usando Docker Compose](#usando-docker-compose)
   - [Autor](#autor)
     - [Contacto](#contacto)
   - [Licencia](#licencia)
@@ -219,6 +222,31 @@ Para documentar nuestra API REST podemos hacer uso de [Swagger](https://swagger.
 
 ## Postman
 Para probar nuestra API podemos usar [Postman](https://www.getpostman.com/). Con ella podemos [probar nuestra API REST](./postman/Spring-Productos-DAM.postman_collection.json) y analizar su comportamiento. Además podemos documentarla y subirla a la nube para que pueda ser probada por otros usuarios.
+
+## Docker
+Para facilitar el despliegue de nuestra API podemos usar [Docker](https://docker.io/). Podemos crear un contenedor de nuestra API y ejecutarla en el puerto por defecto de nuestra API. Además, podemos subir nuestra API a la nube para que pueda ser usada por otros usuarios usando Docker Hub.
+
+### Usando Dockefile
+Podemos usar el [Dockerfile](https://docs.docker.com/engine/reference/builder/) para crear nuestra API. Puedes consultar el [Dockerfile](Dockerfile).
+Para generar y ejecutar el contenedor, usamos: 
+```bash
+docker build --tag=joseluisgs/springboot-productos-dam:latest . 
+docker run -p6969:6969 joseluisgs/spring-boot-productos-dam:latest
+```
+Para subirla a Docker Hub, usamos:
+```bash
+docker push joseluisgs/springboot-productos-dam:latest
+```
+### Usando Docker Compose
+Podemos usar [Docker Compose](https://docs.docker.com/compose/) para desplegar nuestra API. Puedes consultar el fichero [docker-compose.yml](docker-compose.yml).
+Para levantar lso contenedores y construir las imágenes
+```bash
+docker-compose up --build
+```
+Para parar nuestros contenedores
+```bash
+docker-compose down
+```
 
 ## Autor
 

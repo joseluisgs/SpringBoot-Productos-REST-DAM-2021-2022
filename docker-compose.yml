@@ -1,0 +1,30 @@
+# Indicamos la versión
+# Para iniciar docker-compose up -d
+version: '3.7'
+
+# Mis servicios
+# Iniciamos los servicios
+services:
+  # SpringBoot API
+  springboot-productos-dam:
+    build: .
+    image: springboot-productos-dam:latest
+    container_name: springboot-productos-dam
+    ports:
+      - 6969:6969
+    expose:
+      - 6969
+    volumes:
+      - springboot-volume
+    networks:
+      - springboot-network
+    # restart: always
+
+# Mi volumenes de datos compartidos
+volumes:
+  springboot-volume:
+
+# Si queremos que tengan una red propia a otros contenedores
+networks:
+  springboot-network:
+    driver: bridge
