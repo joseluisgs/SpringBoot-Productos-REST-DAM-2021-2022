@@ -128,7 +128,7 @@
                 <!-- Para evitar los test al empaquetar -->
                 <!-- https://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/skipping-test.html -->
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <skipTests>${skipTests}</skipTests>
                 </configuration>
             </plugin>
         </plugins>
