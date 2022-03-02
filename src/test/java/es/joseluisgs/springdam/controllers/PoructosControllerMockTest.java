@@ -3,56 +3,58 @@ package es.joseluisgs.springdam.controllers;
 import es.joseluisgs.springdam.controllers.productos.ProductosRestController;
 import es.joseluisgs.springdam.dto.productos.CreateProductoDTO;
 import es.joseluisgs.springdam.dto.productos.ProductoDTO;
+import es.joseluisgs.springdam.errors.productos.ProductoBadRequestException;
+import es.joseluisgs.springdam.errors.productos.ProductoNotFoundException;
 import es.joseluisgs.springdam.mappers.ProductoMapper;
 import es.joseluisgs.springdam.models.Producto;
 import es.joseluisgs.springdam.repositories.productos.ProductosRepository;
 import es.joseluisgs.springdam.services.uploads.StorageService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 // Ejecutar uno a uno
+// Vamos a moquear todo!!!
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+// @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PoructosControllerMockTest {
-    @Mock
-    private static ProductosRepository productosRepository;
-    // SUT: System Under Test
-    @InjectMocks
-    private static ProductosRestController productosController;
+    // Mis mocks
+    @MockBean
+    private final ProductosRepository productosRepository;
+    @MockBean
+    private final StorageService storageService;
+    @MockBean
+    private final ProductoMapper productoMapper;
     private final Producto producto = Producto.builder()
             .nombre("Producto de prueba")
             .id(1L)
             .precio(10.0)
             .stock(10)
             .build();
-    @Mock
-    private ProductoMapper productoMapper;
-    @Mock
-    private StorageService storageService;
+    // SUT: System Under Test
+    @InjectMocks
+    private ProductosRestController productosController;
 
-    @BeforeAll
-    static void setUp() {
-
-        //Creamos el mock... Sintáxis mock con Mockito
-        //productosRepository = Mockito.mock(ProductosRepository.class);
-        //var fileStorage = Mockito.mock(StorageService.class);
-        //var mapper = Mockito.mock(ProductoMapper.class);
-        // Creamos el SUT con su mock
-        //productosController = new ProductosRestController(productosRepository, fileStorage, mapper);
+    // Debemos decir como va a ser la inyección!!!!
+    @Autowired
+    public PoructosControllerMockTest(ProductosRepository productosRepository, StorageService storageService, ProductoMapper productoMapper) {
+        this.productosRepository = productosRepository;
+        this.storageService = storageService;
+        this.productoMapper = productoMapper;
     }
 
     @Test
-    @Order(1)
     void getAllTestMock() {
         var dto = ProductoDTO.builder()
                 .nombre(producto.getNombre())
@@ -79,7 +81,6 @@ public class PoructosControllerMockTest {
     }
 
     @Test
-    @Order(2)
     void getByIdTestMock() {
         var dto = ProductoDTO.builder()
                 .nombre(producto.getNombre())
@@ -88,7 +89,7 @@ public class PoructosControllerMockTest {
                 .build();
 
         Mockito.when(productosRepository.findById(1L))
-                .thenReturn(java.util.Optional.of(producto));
+                .thenReturn(Optional.of(producto));
 
         Mockito.when(productoMapper.toDTO(producto)).thenReturn(dto);
 
@@ -101,6 +102,23 @@ public class PoructosControllerMockTest {
                 () -> assertEquals(res.getPrecio(), producto.getPrecio()),
                 () -> assertEquals(res.getStock(), producto.getStock())
         );
+
+        Mockito.verify(productosRepository, Mockito.times(1)).findById(1L);
+        Mockito.verify(productoMapper, Mockito.times(1)).toDTO(producto);
+    }
+
+    @Test
+    void findByIdException() {
+        Mockito.when(productosRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Exception ex = assertThrows(ProductoNotFoundException.class, () -> {
+            productosController.findById(1L);
+        });
+
+        assertTrue(ex.getMessage().contains("producto"));
+
+        Mockito.verify(productosRepository, Mockito.times(1))
+                .findById(1L);
     }
 
     @Test
@@ -135,6 +153,91 @@ public class PoructosControllerMockTest {
                 () -> assertEquals(res.getPrecio(), producto.getPrecio()),
                 () -> assertEquals(res.getStock(), producto.getStock())
         );
+
+        Mockito.verify(productosRepository, Mockito.times(1))
+                .save(producto);
+        Mockito.verify(productoMapper, Mockito.times(1))
+                .fromDTO(createDto);
+        Mockito.verify(productoMapper, Mockito.times(1))
+                .toDTO(producto);
+    }
+
+    @Test
+    void checkProductoDataNameExceptionTest() {
+        var createDto = CreateProductoDTO.builder()
+                .nombre("")
+                .precio(producto.getPrecio())
+                .stock(producto.getStock())
+                .build();
+
+        var prod = Producto.builder()
+                .nombre("")
+                .precio(producto.getPrecio())
+                .stock(producto.getStock())
+                .build();
+
+        Mockito.when(productoMapper.fromDTO(createDto)).thenReturn(prod);
+
+        Exception ex = assertThrows(ProductoBadRequestException.class, () -> {
+            productosController.save(createDto);
+        });
+
+        assertTrue(ex.getMessage().contains("Nombre"));
+
+        Mockito.verify(productoMapper, Mockito.times(1))
+                .fromDTO(createDto);
+    }
+
+    @Test
+    void checkProductoDataPrecioExceptionTest() {
+        var createDto = CreateProductoDTO.builder()
+                .nombre(producto.getNombre())
+                .precio(-19.9)
+                .stock(producto.getStock())
+                .build();
+
+        var prod = Producto.builder()
+                .nombre(producto.getNombre())
+                .precio(-19.9)
+                .stock(producto.getStock())
+                .build();
+
+        Mockito.when(productoMapper.fromDTO(createDto)).thenReturn(prod);
+
+        Exception ex = assertThrows(ProductoBadRequestException.class, () -> {
+            productosController.save(createDto);
+        });
+
+        assertTrue(ex.getMessage().contains("Precio"));
+
+        Mockito.verify(productoMapper, Mockito.times(1))
+                .fromDTO(createDto);
+    }
+
+    @Test
+    void checkProductoDataStockExceptionTest() {
+        var createDto = CreateProductoDTO.builder()
+                .nombre(producto.getNombre())
+                .precio(producto.getPrecio())
+                .stock(-1)
+                .build();
+
+        var prod = Producto.builder()
+                .nombre(producto.getNombre())
+                .precio(producto.getPrecio())
+                .stock(-1)
+                .build();
+
+        Mockito.when(productoMapper.fromDTO(createDto)).thenReturn(prod);
+
+        Exception ex = assertThrows(ProductoBadRequestException.class, () -> {
+            productosController.save(createDto);
+        });
+
+        assertTrue(ex.getMessage().contains("Stock"));
+
+        Mockito.verify(productoMapper, Mockito.times(1))
+                .fromDTO(createDto);
     }
 
     @Test
@@ -163,6 +266,13 @@ public class PoructosControllerMockTest {
                 () -> assertEquals(res.getPrecio(), producto.getPrecio()),
                 () -> assertEquals(res.getStock(), producto.getStock())
         );
+
+        Mockito.verify(productosRepository, Mockito.times(1))
+                .findById(1L);
+        Mockito.verify(productosRepository, Mockito.times(1))
+                .save(producto);
+        Mockito.verify(productoMapper, Mockito.times(1))
+                .toDTO(producto);
     }
 
     @Test
@@ -188,5 +298,10 @@ public class PoructosControllerMockTest {
                 () -> assertEquals(res.getPrecio(), producto.getPrecio()),
                 () -> assertEquals(res.getStock(), producto.getStock())
         );
+
+        Mockito.verify(productosRepository, Mockito.times(1))
+                .findById(1L);
+        Mockito.verify(productoMapper, Mockito.times(1))
+                .toDTO(producto);
     }
 }

@@ -122,9 +122,10 @@ public class ProductosRestController {
     })
     @PostMapping("/")
     public ResponseEntity<ProductoDTO> save(@RequestBody CreateProductoDTO productoDTO) {
+        // System.err.println(productoDTO.getNombre() + " " + productoDTO.getPrecio() + " " + productoDTO.getStock());
+        Producto producto = productoMapper.fromDTO(productoDTO);
+        checkProductoData(producto);
         try {
-            Producto producto = productoMapper.fromDTO(productoDTO);
-            checkProductoData(producto);
             Producto productoInsertado = productosRepository.save(producto);
             return ResponseEntity.ok(productoMapper.toDTO(productoInsertado));
         } catch (Exception e) {
@@ -142,20 +143,18 @@ public class ProductosRestController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<ProductoDTO> update(@PathVariable Long id, @RequestBody Producto producto) {
+        Producto productoActualizado = productosRepository.findById(id).orElse(null);
+        if (productoActualizado == null) {
+            throw new ProductoNotFoundException(id);
+        }
+        checkProductoData(producto);
+        // Actualizamos los datos que queramos
+        productoActualizado.setNombre(producto.getNombre());
+        productoActualizado.setPrecio(producto.getPrecio());
+        productoActualizado.setStock(producto.getStock());
         try {
-            Producto productoActualizado = productosRepository.findById(id).orElse(null);
-            if (productoActualizado == null) {
-                throw new ProductoNotFoundException(id);
-            } else {
-                checkProductoData(producto);
-                // Actualizamos los datos que queramos
-                productoActualizado.setNombre(producto.getNombre());
-                productoActualizado.setPrecio(producto.getPrecio());
-                productoActualizado.setStock(producto.getStock());
-
-                productoActualizado = productosRepository.save(productoActualizado);
-                return ResponseEntity.ok(productoMapper.toDTO(productoActualizado));
-            }
+            productoActualizado = productosRepository.save(productoActualizado);
+            return ResponseEntity.ok(productoMapper.toDTO(productoActualizado));
         } catch (Exception e) {
             throw new GeneralBadRequestException("Actualizar", "Error al actualizar el producto. Campos incorrectos");
         }
@@ -169,14 +168,14 @@ public class ProductosRestController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductoDTO> delete(@PathVariable Long id) {
+
+        Producto producto = productosRepository.findById(id).orElse(null);
+        if (producto == null) {
+            throw new ProductoNotFoundException(id);
+        }
         try {
-            Producto producto = productosRepository.findById(id).orElse(null);
-            if (producto == null) {
-                throw new ProductoNotFoundException(id);
-            } else {
-                productosRepository.delete(producto);
-                return ResponseEntity.ok(productoMapper.toDTO(producto));
-            }
+            productosRepository.delete(producto);
+            return ResponseEntity.ok(productoMapper.toDTO(producto));
         } catch (Exception e) {
             throw new GeneralBadRequestException("Eliminar", "Error al borrar el producto");
         }
@@ -192,6 +191,7 @@ public class ProductosRestController {
      * @throws ProductoBadRequestException Si los datos no son correctos
      */
     private void checkProductoData(Producto producto) {
+        //System.err.println(producto.getNombre() + " " + producto.getPrecio() + " " + producto.getStock());
         if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
             throw new ProductoBadRequestException("Nombre", "El nombre es obligatorio");
         }
@@ -213,16 +213,16 @@ public class ProductosRestController {
             @RequestPart("producto") CreateProductoDTO productoDTO,
             @RequestPart("file") MultipartFile file) {
 
-        try {
-            // Comprobamos los campos obligatorios
-            Producto producto = productoMapper.fromDTO(productoDTO);
-            checkProductoData(producto);
+        // Comprobamos los campos obligatorios
+        Producto producto = productoMapper.fromDTO(productoDTO);
+        checkProductoData(producto);
 
-            if (!file.isEmpty()) {
-                String imagen = storageService.store(file);
-                String urlImagen = storageService.getUrl(imagen);
-                producto.setImagen(urlImagen);
-            }
+        if (!file.isEmpty()) {
+            String imagen = storageService.store(file);
+            String urlImagen = storageService.getUrl(imagen);
+            producto.setImagen(urlImagen);
+        }
+        try {
             Producto productoInsertado = productosRepository.save(producto);
             return ResponseEntity.ok(productoMapper.toDTO(productoInsertado));
         } catch (ProductoNotFoundException ex) {

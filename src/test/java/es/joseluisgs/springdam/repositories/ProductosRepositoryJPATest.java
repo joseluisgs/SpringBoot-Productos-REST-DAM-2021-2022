@@ -22,7 +22,7 @@ import javax.transaction.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Una manera de porbar nuestro repositorio si es JPA
-// Con los metodos nuevos que hayamos añadido
+// Con los metodos nuevos que hayamos añadido y los básicos del JPA
 
 @SpringBootTest
 @Transactional
@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @ImportAutoConfiguration
-// Todo eso es @DataJpaTest
+// Todo eso es @DataJpaTest, pero a veces falla al cargar la configuración
 public class ProductosRepositoryJPATest {
 
     @Autowired

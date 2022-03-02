@@ -40,11 +40,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ProductosRestControllerTest {
+public class ProductosRestControllerIntegrationMVCTest {
 
     private final ObjectMapper mapper = new ObjectMapper();
     @Autowired
     MockMvc mockMvc;
+    
     Producto producto = Producto.builder()
             .id(1L)  // El id de la BBDD
             .nombre("Zumo de Naranja")
