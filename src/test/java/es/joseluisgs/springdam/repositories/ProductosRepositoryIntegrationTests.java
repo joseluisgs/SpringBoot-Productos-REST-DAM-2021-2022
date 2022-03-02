@@ -14,12 +14,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Test de integración del repositorio
+// La peor manera, porque si ya probamos integración lo hacemos desde el controlador "final"
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 // Levanto la BBDD en cada test
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-public class ProductosRepositoryTests {
+public class ProductosRepositoryIntegrationTests {
 
     private final Producto producto = Producto.builder()
             .nombre("Producto de prueba")
@@ -28,7 +29,7 @@ public class ProductosRepositoryTests {
             .stock(10)
             .build();
 
-    // Repositorio a testear
+    // Repositorio a testear "de verdad" es integracion
     @Autowired
     private ProductosRepository productosRepository;
 

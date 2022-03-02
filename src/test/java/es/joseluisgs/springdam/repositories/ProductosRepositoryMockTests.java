@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // Test unitario del repositorio mockeado
+// Esto y "nada" es lo mismo... Mejor hacerlo con JPA
 
 @SpringBootTest
 // De esta manera levanto la base de datos de prueba en cada test

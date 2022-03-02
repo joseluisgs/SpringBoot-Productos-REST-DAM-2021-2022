@@ -4,9 +4,11 @@ import es.joseluisgs.springdam.models.Producto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 // Creamos el repositorio extendéndolo de JPA, siguiendo DAO
 // Con ello ya tenemos las operaciones básicas de CRUD y Paginación y Queries
 public interface ProductosRepository extends JpaRepository<Producto, Long> {
